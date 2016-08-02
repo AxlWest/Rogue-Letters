@@ -1,0 +1,19 @@
+# The compiler (CC) is using g++
+CC = g++
+
+# CFLAGS will be options passed to the compiler
+CFLAGS = -c -Wall
+
+all: Rogue Letters
+
+Rogue Letters: Main.o Game.o
+	$(CC) Main.o Game.o -o Rogue Letters
+	
+Main.o: Main.cpp
+	$(CC) $(CFLAGS) Main.cpp
+	
+Game.o: Game.h Game.cpp
+	$(CC) $(CFLAGS) Game.h Game.cpp
+	
+clean:
+	rm *o Rogue Letters
