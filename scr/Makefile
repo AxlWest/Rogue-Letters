@@ -1,22 +1,20 @@
-# The compiler (CC) is using g++
+# The compiler (CXX) is using g++
 CXX = g++
 
-# CXXFLAGS will be options passed to the compiler
+# CFLAGS will be options passed to the compiler
 CXXFLAGS = -c -Wall
-LFLAGS = -Wall
-
 OBJS = Main.o Game.o
 
 all: RogueLetters
 
 RogueLetters: Main.o Game.o
-	$(CXX) $(OBJS) -o RogueLetters
+	$(CXX) $(OBJS) -o ../RogueLetters
 	
-Main.o: Main.cpp Game.h
-	$(CXX) $(CFLAGS) Main.cpp
+main.o: Main.cpp
+	$(CXX) $(CXXFLAGS) Main.cpp
 	
 Game.o: Game.h Game.cpp
-	$(CXX) $(CFLAGS) Game.h Game.cpp
+	$(CXX) $(CXXFLAGS) Game.h Game.cpp
 	
 clean:
 	rm *o RogueLetters
