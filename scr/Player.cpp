@@ -3,10 +3,10 @@
 
 #define NULL 0
 
-void Player::Player(void)
+Player::Player(void)
 {
 	this->classType = 0 ;
-	this->hp = 0 ;
+	this->healthPoints = 0 ;
 	this->dodgeChance = 0 ;
 	this->chanceToHit = 0 ;
 	this->speed = 0 ;
@@ -20,6 +20,18 @@ void Player::Player(void)
 	}
 }
 
+Player::~Player()
+{
+	for(int i = 0 ; i < this->MAX_INVENTORY_SPACE ; i++)
+	{
+		if(this->inventory[i] != NULL)
+		{
+			delete this->inventory[i] ;
+			this->inventory[i] = NULL ;
+		}
+	}
+}
+
 int Player::init(int classType)
 {
 	
@@ -29,12 +41,12 @@ int Player::changeHP(int modifier)
 {
 	if(modifier == 0)
 	{
-		return this->hp ;
+		return this->healthPoints ;
 	}
 	
-	this->hp += modifier ;
+	this->healthPoints += modifier ;
 	
-	return this->hp ;
+	return this->healthPoints ;
 }
 
 int Player::changeDodgeChance(int modifier)
@@ -87,12 +99,12 @@ int Player::changeMana(int modifier)
 
 int Player::getXLocation(void)
 {
-	return this->playerXLocation
+	return this->playerXLocation ;
 }
 
 int Player::getYLocation(void)
 {
-	return this->playerYLocation
+	return this->playerYLocation ;
 }
 
 void Player::setXLocation(int newLocation)

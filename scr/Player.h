@@ -6,18 +6,19 @@ class Player
 {
 	private :
 	
-	const int MAX_INVENTORY_SPACE = 12 ; //The maximum no of items the plater can carry
+	static const int MAX_INVENTORY_SPACE = 12 ; //The maximum no of items the plater can carry
 	
 	int healthPoints ; //How much damage the player can take before he dies
 	int dodgeChance ; //The chance that the player will avoid an incoming hit
 	int chanceToHit ; //The chance that the player will hit its oponant
+	int speed ; //Determines who attacks first great speed can allow the player to attack twice consecutively
 	int stamina ; //The distance the player can run for and total effectiveness in combat
 	int mana ; //The amount of mana avalile for casting spells
 	int classType ; //The class type of the player
-	int x ; //The players X location
-	int y ; //The players Y location
+	int playerXLocation ; //The players X location
+	int playerYLocation ; //The players Y location
 	
-	InventorySlot imventory[MAX_INVENTORY_SPACE] ; //Storage for the players imventory
+	InventorySlot* inventory[MAX_INVENTORY_SPACE] ; //Storage for the players imventory
 	
 	public :
 	
@@ -27,7 +28,7 @@ class Player
 	
 	enum classTypes{WARRIOR = 0 , ROGUE = 1 , MAGE = 2} ;
 	
-	int changeHP(int modifier) //Changes the players healthPoints and returns its new value
+	int changeHP(int modifier) ; //Changes the players healthPoints and returns its new value
 	//(Can pass in 0 to just get the players current HP)
 	int changeDodgeChance(int modifier) ; //Changes the players dodgeChance and returns its new value
 	//(Can pass in 0 to just get the players current dodgeChance)

@@ -6,8 +6,6 @@ int main(int argc , char* argv[])
 {
 	Game* game = NULL ;
 	game = new Game() ;
-	
-	game->init() ;
 
 	game->run() ;
 

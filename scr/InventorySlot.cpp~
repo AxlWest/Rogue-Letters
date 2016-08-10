@@ -1,4 +1,4 @@
-#include "InventorySlot.h"
+#include "InventorySlot"
 
 InventorySlot::InventorySlot(void)
 {

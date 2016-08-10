@@ -2,11 +2,6 @@
 
 #define NULL 0
 
-#include <iostream>
-
-using std::cout ;
-using std::endl ;
-
 int main(int argc , char* argv[])
 {
 	Game* game = NULL ;
@@ -21,8 +16,6 @@ int main(int argc , char* argv[])
 		delete game ;
 		game = NULL ;
 	}
-	
-	cout << "I Ran" << endl ;
 
 	return 0 ;
 }
