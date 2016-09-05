@@ -1,5 +1,6 @@
 #include "Game.h"
 #include "Player.h"
+#include "Draw.h"
 #include <iostream>
 
 #define NULL 0
@@ -28,12 +29,23 @@ int Game::init()
 	this->player = new Player() ;
 	this->player->init(this->requestPlayerClass()) ;
 	
+	this->draw = new Draw() ;
+	if(this->draw->init() != 0)
+	{
+		return -1 ;
+	}
+	
 	return 0 ;
 }
 
 void Game::run()
 {
-	this->init() ;
+	if(this->init() != 0)
+	{
+		return ;
+	}
+	
+	this->draw->drawScreen() ;
 }
 
 int Game::requestPlayerClass()

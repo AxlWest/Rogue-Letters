@@ -12,7 +12,7 @@ class Game
 	
 	Game() ; //Constructor
 	~Game() ; //Destructor
-	int init(int playerClassType) ; //Initilization method
+	int init() ; //Initilization method
 	
 	void run() ;
 	

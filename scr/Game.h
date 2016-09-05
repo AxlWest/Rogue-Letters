@@ -1,12 +1,14 @@
 #pragma once
 
 class Player ;
+class Draw ;
 
 class Game
 {
 	private :
 	
 	Player* player ;
+	Draw* draw ;
 
 	public :
 	
