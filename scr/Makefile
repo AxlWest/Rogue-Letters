@@ -25,7 +25,9 @@ InventorySlot.o:
 Draw.o:
 	$(CXX) $(CXXFLAGS) Draw.h Draw.cpp
 	
-.PHONY : clean
+.PHONY: clean
+
 clean:
 	rm ../RogueLetters
-	rm $(OBJ) 
+	rm -f $(OBJS) *.o *.gch
+	

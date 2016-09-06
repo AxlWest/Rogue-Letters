@@ -13,6 +13,7 @@ using std::string ;
 Game::Game()
 {
 	this->player = NULL ;
+	this->draw = NULL ;
 }
 
 Game::~Game()
@@ -22,6 +23,12 @@ Game::~Game()
 		delete this->player ;
 		this->player = NULL ;
 	}
+	
+	if(this->draw != NULL)
+	{
+		delete this->draw ;
+		this->draw = NULL ;
+	}
 }
 
 int Game::init()
@@ -29,11 +36,31 @@ int Game::init()
 	this->player = new Player() ;
 	this->player->init(this->requestPlayerClass()) ;
 	
+	cout << "creating draw" << endl ;
+	
 	this->draw = new Draw() ;
-	if(this->draw->init() != 0)
+	
+	cout << "draw created" << endl ;
+	
+	int temp = 3 ;
+	
+	if(this->draw == NULL)
 	{
-		return -1 ;
+		cout << "noooooo" << endl ;
 	}
+	
+	cout << "initilizing draw" << endl ;
+	
+	temp = this->draw->init() ;
+	
+	cout << "draw initilized" << endl ;
+	
+	//if(this->draw->init() != 0)
+	//{
+		//cout << "return -1" << endl ;
+		//return -1 ;
+	//}
+    cout << temp << endl ;
 	
 	return 0 ;
 }
@@ -42,6 +69,7 @@ void Game::run()
 {
 	if(this->init() != 0)
 	{
+        cout << "Should not be here" ;
 		return ;
 	}
 	

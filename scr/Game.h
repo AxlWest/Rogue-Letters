@@ -12,11 +12,11 @@ class Game
 
 	public :
 	
-	Game() ; //Constructor
-	~Game() ; //Destructor
-	int init() ; //Initilization method
+	Game(void) ; //Constructor
+	~Game(void) ; //Destructor
+	int init(void) ; //Initilization method
 	
-	void run() ;
+	void run(void) ;
 	
-	int requestPlayerClass() ;
+	int requestPlayerClass(void) ;
 } ;

@@ -1,9 +1,0 @@
-#include "InventorySlot"
-
-InventorySlot::InventorySlot(void)
-{
-}
-
-InventorySlot::~InventorySlot(void)
-{
-}
