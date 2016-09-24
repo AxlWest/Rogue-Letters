@@ -7,10 +7,12 @@ Player::Player(void)
 {
 	this->classType = 0 ;
 	this->healthPoints = 0 ;
+    this->hp = 0 ;
 	this->dodgeChance = 0 ;
 	this->chanceToHit = 0 ;
 	this->speed = 0 ;
 	this->mana = 0 ;
+    this->mp = 0 ;
 	this->playerXLocation = 0 ;
 	this->playerYLocation = 0 ;
 	
@@ -34,19 +36,24 @@ Player::~Player()
 
 int Player::init(int classType)
 {
-	
+	return 0 ;
 }
 
 int Player::changeHP(int modifier)
 {
 	if(modifier == 0)
 	{
-		return this->healthPoints ;
+		return this->hp ;
 	}
 	
-	this->healthPoints += modifier ;
+	this->hp += modifier ;
 	
-	return this->healthPoints ;
+	return this->hp ;
+}
+
+void Player::changeHealthPoints(int modifier)
+{
+	this->healthPoints += modifier ;
 }
 
 int Player::changeDodgeChance(int modifier)
@@ -85,15 +92,30 @@ int Player::changeStamina(int modifier)
 	return this->stamina ;
 }
 
-int Player::changeMana(int modifier)
+int Player::changeMP(int modifier)
 {
 	if(modifier == 0)
 	{
-		return this->mana ;
+		return this->mp ;
 	}
 	
-	this->mana += modifier ;
+	this->mp += modifier ;
 	
+	return this->mp ;
+}
+
+void Player::changeMana(int modifier)
+{
+	this->mana += modifier ;
+}
+
+int Player::getHealthPoints(void)
+{
+	return this->healthPoints ;
+}
+
+int Player::getMana(void)
+{
 	return this->mana ;
 }
 

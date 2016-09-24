@@ -10,8 +10,6 @@ class Draw
 {
 	private :
 	
-		static const int SCREEN_WIDTH = 81 ;
-		
 		string screen ; //A string that stores the screen
 	
 	public :

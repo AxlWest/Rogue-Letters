@@ -1,4 +1,5 @@
 #include "Draw.h"
+#include "Player.h"
 #include <fstream>
 
 using std::cout ;
@@ -17,32 +18,44 @@ Draw::~Draw(void)
 
 int Draw::init(void)
 {
-	cout << "In the Function" << endl ;
-
 	ifstream file ;
-	file.open("../assets/ui.txt" , std::ios::in) ;
-	
-	cout << "Here" ;
+	file.open("assets/ui.txt" , std::fstream::in) ;
 	
 	if(file.is_open())
 	{
 		string line ;
 		while(getline(file , line))
 		{
-			cout << line ;
+			//cout << line ;
 			this->screen += line ;
+			this->screen += "\n" ;
 		}
 		
 		file.close() ;
 		
 		return 0 ;
 	}
+	else
+	{
+		return -2 ; //Return error
+	}
 	
-    return 7 ; //Return error
+    return -1 ; //Return error
 }
 
 void Draw::drawScreen(void)
 {
-    cout << "Draw screen method" << endl ;
     cout << this->screen ;
+}
+
+void Draw::updatePlayerStats(Player* player)
+{
+    if(player->changeHP(0) > 9)
+	{
+        this->screen[(this->SCREEN_WIDTH * 4) + 69] = player->changeHP(0) ;
+	}
+	else
+	{
+        this->screen[(this->SCREEN_WIDTH * 4) + 69] = player->changeHP(0) ;
+	}
 }

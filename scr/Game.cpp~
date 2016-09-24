@@ -59,7 +59,7 @@ void Game::run()
 		return ;
 	}
 	
-	this->draw->updatePlayerStats(this->player) ;
+	this->draw->updatePlayerStates(this->player) ;
 	
 	this->draw->drawScreen() ;
 }

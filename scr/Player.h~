@@ -41,7 +41,7 @@ class Player
 	//(Can pass in 0 to just get the players current stamina)
 	int changeMP(int modifier) ; //Changes the players mana and returns its new value
 	//(Can pass in 0 to just get the players current mana)
-	void changeMana(int modifier) ; //Modifies the players mana total by the ammount passed in
+	int changeMana(int modifier) ; //Modifies the players mana total by the ammount passed in
 	
 	int getHealthPoints(void) ; //Returns the players health points
 	int getMana(void) ; //Returns the players mana points
