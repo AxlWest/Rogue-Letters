@@ -36,6 +36,55 @@ Player::~Player()
 
 int Player::init(int classType)
 {
+	switch(classType)
+	{
+		case Player::WARRIOR :
+		
+			this->healthPoints = 10 ;
+			this->dodgeChance = 3 ;
+			this->chanceToHit = 50 ;
+			this->speed = 4 ;
+			this->stamina = 6 ;
+			this->mana = 2 ;
+			this->hp = 10 ;
+			this->mp = 2 ;
+	
+			break ;
+		
+		case Player::ROGUE :
+		
+			this->healthPoints = 5 ;
+			this->dodgeChance = 10 ;
+			this->chanceToHit = 80 ;
+			this->speed = 10 ;
+			this->stamina = 10 ;
+			this->mana = 4 ;
+			this->hp = 5 ;
+			this->mp = 4 ;
+		
+			break ;
+		
+		case Player::MAGE :
+	
+			this->healthPoints = 2 ;
+			this->dodgeChance = 5 ;
+			this->chanceToHit = 50 ;
+			this->speed = 6 ;
+			this->stamina = 10 ;
+			this->mana = 10 ;
+			this->hp = 2 ;
+			this->mp = 10 ;
+	
+			break ;
+		
+		default :
+		
+			//cout << "Unexpected class creation error Player::init" << endl ;
+			return -1 ;
+		
+			break ;	
+	}
+
 	return 0 ;
 }
 
@@ -80,7 +129,19 @@ int Player::changeChanceToHit(int modifier)
 	return this->chanceToHit ;
 }
 
-int Player::changeStamina(int modifier)
+int Player::changeSpeed(int modifier)
+{
+    if(modifier == 0)
+    {
+        return this->speed ;
+    }
+
+    this->speed += modifier ;
+
+    return this->speed ;
+}
+
+int Player::changeST(int modifier)
 {
 	if(modifier == 0)
 	{
@@ -90,6 +151,11 @@ int Player::changeStamina(int modifier)
 	this->stamina += modifier ;
 	
 	return this->stamina ;
+}
+
+void Player::changeStamina(int modifier)
+{
+    this->stamina += modifier ;
 }
 
 int Player::changeMP(int modifier)
@@ -117,6 +183,11 @@ int Player::getHealthPoints(void)
 int Player::getMana(void)
 {
 	return this->mana ;
+}
+
+int Player::getStamina(void)
+{
+    return this->stamina ;
 }
 
 int Player::getXLocation(void)

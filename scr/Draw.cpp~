@@ -149,8 +149,8 @@ void Draw::updatePlayerStats(Player* player)
 		
 		string value = convert.str() ;
 		
-		this->screen[(this->SCREEN_WIDTH * 7) + 68] = value.c_str()[0] ;
-		this->screen[(this->SCREEN_WIDTH * 7) + 69] = value.c_str()[1] ;
+		this->screen[(this->SCREEN_WIDTH * 7) + 69] = value.c_str()[0] ;
+		this->screen[(this->SCREEN_WIDTH * 7) + 70] = value.c_str()[1] ;
 	}
 	else
 	{
@@ -193,8 +193,8 @@ void Draw::updatePlayerStats(Player* player)
 		
 		string value = convert.str() ;
 		
-		this->screen[(this->SCREEN_WIDTH * 10) + 68] = value.c_str()[0] ;
-		this->screen[(this->SCREEN_WIDTH * 10) + 69] = value.c_str()[1] ;
+		this->screen[(this->SCREEN_WIDTH * 10) + 69] = value.c_str()[0] ;
+		this->screen[(this->SCREEN_WIDTH * 10) + 70] = value.c_str()[1] ;
 	}
 	else
 	{
