@@ -11,7 +11,7 @@ using std::ostringstream ;
 
 Draw::Draw(void)
 {
-	cout << "created" << endl ;
+
 }
 
 Draw::~Draw(void)
@@ -22,7 +22,7 @@ Draw::~Draw(void)
 int Draw::init(void)
 {
 	ifstream file ;
-	file.open("assets/ui.txt" , std::fstream::in) ;
+	file.open("assets/ui/ui.txt" , std::fstream::in) ;
 	
 	if(file.is_open())
 	{
@@ -72,6 +72,7 @@ void Draw::updatePlayerStats(Player* player)
 		
 		string value = convert.str() ;
 		
+		this->screen[(this->SCREEN_WIDTH * 4) + 66] = ' ' ;
 		this->screen[(this->SCREEN_WIDTH * 4) + 67] = value.c_str()[0] ;
 	}
 
@@ -95,6 +96,7 @@ void Draw::updatePlayerStats(Player* player)
 		string value = convert.str() ;
 		
 		this->screen[(this->SCREEN_WIDTH * 4) + 69] = value.c_str()[0] ;
+		this->screen[(this->SCREEN_WIDTH * 4) + 70] = ' ' ;
 	}
 	
 	if(player->changeMP(0) > 9)
@@ -116,6 +118,7 @@ void Draw::updatePlayerStats(Player* player)
 		
 		string value = convert.str() ;
 		
+		this->screen[(this->SCREEN_WIDTH * 4) + 72] = ' ' ;
 		this->screen[(this->SCREEN_WIDTH * 4) + 73] = value.c_str()[0] ;
 	}
 	
@@ -139,6 +142,7 @@ void Draw::updatePlayerStats(Player* player)
 		string value = convert.str() ;
 		
 		this->screen[(this->SCREEN_WIDTH * 4) + 75] = value.c_str()[0] ;
+		this->screen[(this->SCREEN_WIDTH * 4) + 76] = ' ' ;
 	}
 	
 	if(player->changeDodgeChance(0) > 9)
@@ -149,8 +153,8 @@ void Draw::updatePlayerStats(Player* player)
 		
 		string value = convert.str() ;
 		
-		this->screen[(this->SCREEN_WIDTH * 7) + 69] = value.c_str()[0] ;
-		this->screen[(this->SCREEN_WIDTH * 7) + 70] = value.c_str()[1] ;
+		this->screen[(this->SCREEN_WIDTH * 7) + 68] = value.c_str()[0] ;
+		this->screen[(this->SCREEN_WIDTH * 7) + 69] = value.c_str()[1] ;
 	}
 	else
 	{
@@ -160,6 +164,7 @@ void Draw::updatePlayerStats(Player* player)
 		
 		string value = convert.str() ;
 		
+		this->screen[(this->SCREEN_WIDTH * 7) + 68] = ' ' ;
 		this->screen[(this->SCREEN_WIDTH * 7) + 69] = value.c_str()[0] ;
 	}
 	
@@ -182,6 +187,7 @@ void Draw::updatePlayerStats(Player* player)
 		
 		string value = convert.str() ;
 		
+		this->screen[(this->SCREEN_WIDTH * 7) + 74] = ' ' ;
 		this->screen[(this->SCREEN_WIDTH * 7) + 75] = value.c_str()[0] ;
 	}
 	
@@ -193,8 +199,8 @@ void Draw::updatePlayerStats(Player* player)
 		
 		string value = convert.str() ;
 		
-		this->screen[(this->SCREEN_WIDTH * 10) + 69] = value.c_str()[0] ;
-		this->screen[(this->SCREEN_WIDTH * 10) + 70] = value.c_str()[1] ;
+		this->screen[(this->SCREEN_WIDTH * 10) + 68] = value.c_str()[0] ;
+		this->screen[(this->SCREEN_WIDTH * 10) + 69] = value.c_str()[1] ;
 	}
 	else
 	{
@@ -204,6 +210,7 @@ void Draw::updatePlayerStats(Player* player)
 		
 		string value = convert.str() ;
 		
+		this->screen[(this->SCREEN_WIDTH * 10) + 68] = ' ' ;
 		this->screen[(this->SCREEN_WIDTH * 10) + 69] = value.c_str()[0] ;
 	}
 	
@@ -226,6 +233,7 @@ void Draw::updatePlayerStats(Player* player)
 		
 		string value = convert.str() ;
 		
+		this->screen[(this->SCREEN_WIDTH * 10) + 72] = ' ' ;
 		this->screen[(this->SCREEN_WIDTH * 10) + 73] = value.c_str()[0] ;
 	}
 	
@@ -248,6 +256,70 @@ void Draw::updatePlayerStats(Player* player)
 		
 		string value = convert.str() ;
 		
-		this->screen[(this->SCREEN_WIDTH * 10) + 76] = value.c_str()[0] ;
+		this->screen[(this->SCREEN_WIDTH * 10) + 75] = value.c_str()[0] ;
+		this->screen[(this->SCREEN_WIDTH * 10) + 76] = ' ' ;
 	}
+}
+
+void Draw::updateMap(string* map , int mapHeight , int playerX , int playerY)
+{
+	//Clear the map section of the screen
+	for(int i = 1 ; i < 63 ; i++)
+	{
+		for(int k = 1 ; k < 15 ; k++)
+		{
+			this->screen[(this->SCREEN_WIDTH * k) + i] = ' ' ;
+		}
+	}
+
+	//Update the map section of the screen
+	for(int i = 1 ; i < 63 ; i++)
+	{
+		if(((i - 31) + playerX) >= 0)
+		{					
+			for(int k = 1 ; k < 15 ; k++)
+			{
+				if(((k - 7) + playerY) >= 0)
+				{
+					if(((i - 31) + playerX) < map[((k - 7) + playerY)].length())
+					{
+						if(((k - 7) + playerY) < mapHeight)
+						{
+							cout << ((k-7) + playerY) << endl ;
+						
+							this->screen[(this->SCREEN_WIDTH * k) + i] = map[((k - 7) + playerY)][((i - 31) + playerX)] ;
+						}
+					}
+				}
+			}
+		}
+	}
+	
+	this->screen[(this->SCREEN_WIDTH * 7) + 32] = 'P' ;
+}
+
+void Draw::addMessage(string message)
+{
+	this->messageBoard[0] = this->messageBoard[1] ;
+	this->messageBoard[1] = this->messageBoard[2] ;
+	this->messageBoard[2] = this->messageBoard[3] ;
+	this->messageBoard[3] = this->messageBoard[4] ;
+	this->messageBoard[4] = message ;
+	
+	for(int i = 17 ; i < 22 ; i++)
+	{
+		for(int k = 4 ; k < 64 ; k++)
+		{
+			
+			if((k - 4) >= this->messageBoard[(i - 17)].length())
+			{
+				this->screen[(this->SCREEN_WIDTH * i) + k] = ' ' ;
+			}
+			else
+			{
+				this->screen[(this->SCREEN_WIDTH * i) + k] = this->messageBoard[(i - 17)][(k - 4)] ;
+			}
+		}
+	}
+	
 }

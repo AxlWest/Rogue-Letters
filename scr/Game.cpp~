@@ -1,19 +1,19 @@
 #include "Game.h"
 #include "Player.h"
 #include "Draw.h"
-#include <iostream>
+#include "Level.h"
 
 #define NULL 0
 
 using std::cin ;
 using std::cout ;
 using std::endl ;
-using std::string ;
 
 Game::Game()
 {
 	this->player = NULL ;
 	this->draw = NULL ;
+	this->level = NULL ;
 }
 
 Game::~Game()
@@ -28,6 +28,12 @@ Game::~Game()
 	{
 		delete this->draw ;
 		this->draw = NULL ;
+	}
+	
+	if(this->level != NULL)
+	{
+		delete this->level ;
+		this->level = NULL ;
 	}
 }
 
@@ -48,6 +54,11 @@ int Game::init()
 		//return -1 ;
 	//}
 	
+	this->level = new Level() ;
+	this->level->loadLevel(0 , this->player) ;
+	
+	this->draw->addMessage("Welcome to Rogue Letters!") ;
+	
 	return 0 ;
 }
 
@@ -59,9 +70,21 @@ void Game::run()
 		return ;
 	}
 	
-	this->draw->updatePlayerStates(this->player) ;
+	this->draw->updatePlayerStats(this->player) ;
+	this->draw->updateMap(this->level->getMap() , this->level->getMapHeight() , this->player->getXLocation() , this->player->getYLocation()) ;
 	
-	this->draw->drawScreen() ;
+	for(int i = 0 ; i < 4 ; i++)
+	{
+		this->draw->drawScreen() ;
+		
+		string temp ;
+		cin >> temp ;
+		
+		this->handleKeyboardInput(temp) ;
+		
+		this->draw->updatePlayerStats(this->player) ;
+		this->draw->updateMap(this->level->getMap() , this->level->getMapHeight() , this->player->getXLocation() , this->player->getYLocation()) ;
+	}
 }
 
 int Game::requestPlayerClass()
@@ -99,4 +122,42 @@ int Game::requestPlayerClass()
 		}
 	}
 	while(1) ;
+}
+
+void Game::handleKeyboardInput(string input)
+{
+	switch(input[0])
+	{
+		case 'W' :
+		case 'w' :
+			
+			this->player->setYLocation((this->player->getYLocation() - 1)) ;
+			
+			break ;
+		
+		case 'S' :
+		case 's' :
+			
+			this->player->setYLocation((this->player->getYLocation() + 1)) ;
+			
+			break ;
+			
+		case 'D' :
+		case 'd' :
+			
+			this->player->setXLocation((this->player->getXLocation() + 1)) ;
+			
+			break ;
+			
+		case 'A' :
+		case 'a' :
+			
+			this->player->setXLocation((this->player->getXLocation() - 1)) ;
+			
+			break ;
+			
+		default :
+		
+			break ;
+	}
 }

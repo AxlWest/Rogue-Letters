@@ -1,9 +1,5 @@
 #pragma once
 
-#include <iostream>
-
-using std::string ;
-
 class Player ;
 class Draw ;
 class Level ;

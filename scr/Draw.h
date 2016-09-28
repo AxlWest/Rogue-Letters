@@ -9,10 +9,12 @@ using std::string ;
 class Draw
 {
 	private :
-	
+		
+		static const int MESSAGE_BOARD_MAX = 5 ;
 		static const int SCREEN_WIDTH = 81 ;
 		
 		string screen ; //A string that stores the screen
+		string messageBoard[MESSAGE_BOARD_MAX] ; //
 	
 	public :
 	
@@ -22,4 +24,6 @@ class Draw
 
 		void drawScreen(void) ;
 		void updatePlayerStats(Player* player) ;
+		void updateMap(string* map , int mapHeight, int playerX , int playerY) ;
+		void addMessage(string message) ;
 } ;
