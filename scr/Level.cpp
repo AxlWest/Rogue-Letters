@@ -36,8 +36,11 @@ void Level::loadLevel(int modifier , Player* player)
 		{
 			if(this->levelMap[i][k] == 'P')
 			{
-				player->setXLocation((k - 1)) ;
+				player->setXLocation(k) ;
 				player->setYLocation(i) ;
+				
+				cout << "x = " << k << endl ;
+				cout << "y = " << i << endl ;
 				
 				this->levelMap[i][k] = ' ' ;
 			}
@@ -96,4 +99,9 @@ int Level::getMapHeight(void)
 string* Level::getMap(void)
 {
 	return this->levelMap ;
+}
+
+char Level::getMapTile(int xLoc , int yLoc)
+{
+	return this->levelMap[yLoc][xLoc] ;
 }

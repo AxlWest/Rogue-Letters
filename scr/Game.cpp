@@ -73,7 +73,7 @@ void Game::run()
 	this->draw->updatePlayerStats(this->player) ;
 	this->draw->updateMap(this->level->getMap() , this->level->getMapHeight() , this->player->getXLocation() , this->player->getYLocation()) ;
 	
-	for(int i = 0 ; i < 10 ; i++)
+	for(int i = 0 ; i < 30 ; i++)
 	{
 		this->draw->drawScreen() ;
 		
@@ -131,28 +131,56 @@ void Game::handleKeyboardInput(string input)
 		case 'W' :
 		case 'w' :
 			
-			this->player->setYLocation((this->player->getYLocation() - 1)) ;
+			if(this->level->getMapTile(this->player->getXLocation() , (this->player->getYLocation() - 1)) == '+')
+			{
+				this->draw->addMessage("A wall blocks your way.") ;
+			}
+			else
+			{
+				this->player->setYLocation((this->player->getYLocation() - 1)) ;
+			}
 			
 			break ;
 		
 		case 'S' :
 		case 's' :
 			
-			this->player->setYLocation((this->player->getYLocation() + 1)) ;
+			if(this->level->getMapTile(this->player->getXLocation() , (this->player->getYLocation() + 1)) == '+')
+			{
+				this->draw->addMessage("A wall blocks your way.") ;
+			}
+			else
+			{
+				this->player->setYLocation((this->player->getYLocation() + 1)) ;
+			}
 			
 			break ;
 			
 		case 'D' :
 		case 'd' :
 			
-			this->player->setXLocation((this->player->getXLocation() + 1)) ;
+			if(this->level->getMapTile((this->player->getXLocation() + 1) , this->player->getYLocation()) == '+')
+			{
+				this->draw->addMessage("A wall blocks your way.") ;
+			}
+			else
+			{
+				this->player->setXLocation((this->player->getXLocation() + 1)) ;
+			}
 			
 			break ;
 			
 		case 'A' :
 		case 'a' :
 			
-			this->player->setXLocation((this->player->getXLocation() - 1)) ;
+			if(this->level->getMapTile((this->player->getXLocation() - 1) , this->player->getYLocation()) == '+')
+			{
+				this->draw->addMessage("A wall blocks your way.") ;
+			}
+			else
+			{
+				this->player->setXLocation((this->player->getXLocation() - 1)) ;
+			}
 			
 			break ;
 			

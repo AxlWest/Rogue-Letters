@@ -285,8 +285,6 @@ void Draw::updateMap(string* map , int mapHeight , int playerX , int playerY)
 					{
 						if(((k - 7) + playerY) < mapHeight)
 						{
-							cout << ((k-7) + playerY) << endl ;
-						
 							this->screen[(this->SCREEN_WIDTH * k) + i] = map[((k - 7) + playerY)][((i - 31) + playerX)] ;
 						}
 					}
@@ -321,5 +319,4 @@ void Draw::addMessage(string message)
 			}
 		}
 	}
-	
 }

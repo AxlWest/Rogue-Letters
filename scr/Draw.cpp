@@ -293,7 +293,7 @@ void Draw::updateMap(string* map , int mapHeight , int playerX , int playerY)
 		}
 	}
 	
-	this->screen[(this->SCREEN_WIDTH * 7) + 32] = 'P' ;
+	this->screen[(this->SCREEN_WIDTH * 7) + 31] = 'P' ;
 }
 
 void Draw::addMessage(string message)
@@ -319,5 +319,4 @@ void Draw::addMessage(string message)
 			}
 		}
 	}
-	
 }

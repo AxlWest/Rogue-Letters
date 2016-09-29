@@ -25,5 +25,6 @@ class Level
 		
 		void loadLevel(int modifier , Player* player) ;
 		
+		int getMapHeight(void) ;
 		string* getMap(void) ;
 } ;
