@@ -184,6 +184,18 @@ void Game::handleKeyboardInput(string input)
 			
 			break ;
 			
+		case 'E' :
+		case 'e' :
+		
+			if(this->level->getMapTile(this->player->getXLocation() , this->player->getYLocation()) == 'E')
+			{
+				this->level->loadLevel(1 , this->player) ;
+			}
+			else if(this->level->getMapTile(this->player->getXLocation() , this->player->getYLocation()) == '^')
+			{
+				this->level->loadLevel(-1 , this->player) ;
+			}
+			
 		default :
 		
 			break ;

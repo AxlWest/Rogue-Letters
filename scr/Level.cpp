@@ -25,6 +25,11 @@ void Level::loadLevel(int modifier , Player* player)
 {
 	this->currentLevel += modifier ;
 	
+	if(this->currentLevel < 0)
+	{
+		this->currentLevel = 0 ;
+	}
+	
 	this->loadMap() ;
 	
 	for(int i = 0 ; i < this->mapHeight ; i++)
@@ -42,7 +47,14 @@ void Level::loadLevel(int modifier , Player* player)
 				cout << "x = " << k << endl ;
 				cout << "y = " << i << endl ;
 				
-				this->levelMap[i][k] = ' ' ;
+				if(this->currentLevel != 0)
+				{
+					this->levelMap[i][k] = '^' ;
+				}
+				else
+				{
+					this->levelMap[i][k] = ' ' ;
+				}
 			}
 		}
 	}
@@ -63,7 +75,7 @@ int Level::loadMap(void)
 		convert << this->currentLevel ;
 		
 		string levelFileName ;
-		levelFileName = "assets/levels/" ;
+		levelFileName = "assets/levels/level" ;
 		levelFileName += convert.str() ;
 		levelFileName += ".txt" ;
 		

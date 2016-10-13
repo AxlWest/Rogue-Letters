@@ -131,7 +131,7 @@ void Game::handleKeyboardInput(string input)
 		case 'W' :
 		case 'w' :
 			
-			if(this->level->getMapTile(this->player->getXLocation() , (this->player->getYLocation() - 1)) == '+' || this->level->getMapTile(this->player->getXLocation() , (this->player->getYLocation() - 1)) == '+')
+			if(this->level->getMapTile(this->player->getXLocation() , (this->player->getYLocation() - 1)) == '+')
 			{
 				this->draw->addMessage("A wall blocks your way.") ;
 			}
@@ -145,7 +145,7 @@ void Game::handleKeyboardInput(string input)
 		case 'S' :
 		case 's' :
 			
-			if(this->level->getMapTile(this->player->getXLocation() , (this->player->getYLocation() + 1)) == '+' || this->level->getMapTile(this->player->getXLocation() , (this->player->getYLocation() + 1)) == '+')
+			if(this->level->getMapTile(this->player->getXLocation() , (this->player->getYLocation() + 1)) == '+')
 			{
 				this->draw->addMessage("A wall blocks your way.") ;
 			}
@@ -159,7 +159,7 @@ void Game::handleKeyboardInput(string input)
 		case 'D' :
 		case 'd' :
 			
-			if(this->level->getMapTile((this->player->getXLocation() + 1) , this->player->getYLocation()) == '+' || this->level->getMapTile((this->player->getXLocation() + 1) , this->player->getYLocation()) == '+')
+			if(this->level->getMapTile((this->player->getXLocation() + 1) , this->player->getYLocation()) == '+')
 			{
 				this->draw->addMessage("A wall blocks your way.") ;
 			}
@@ -173,7 +173,7 @@ void Game::handleKeyboardInput(string input)
 		case 'A' :
 		case 'a' :
 			
-			if(this->level->getMapTile((this->player->getXLocation() - 1) , this->player->getYLocation()) == '+' || this->level->getMapTile((this->player->getXLocation() - 1) , this->player->getYLocation()) == '+')
+			if(this->level->getMapTile((this->player->getXLocation() - 1) , this->player->getYLocation()) == '+')
 			{
 				this->draw->addMessage("A wall blocks your way.") ;
 			}
@@ -183,6 +183,18 @@ void Game::handleKeyboardInput(string input)
 			}
 			
 			break ;
+			
+		case 'E' :
+		case 'e' :
+		
+			if(this->level->getMapTile(this->player->getXLocation() , this->player->getYLocation()) == 'E')
+			{
+				
+			}
+			else if(this->level->getMapTile(this->player->getXLocation() , this->player->getYLocation()) == '^')
+			{
+				
+			}
 			
 		default :
 		
