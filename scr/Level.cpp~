@@ -75,7 +75,7 @@ int Level::loadMap(void)
 		convert << this->currentLevel ;
 		
 		string levelFileName ;
-		levelFileName = "assets/levels/" ;
+		levelFileName = "assets/levels/level" ;
 		levelFileName += convert.str() ;
 		levelFileName += ".txt" ;
 		

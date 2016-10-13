@@ -131,9 +131,20 @@ void Game::handleKeyboardInput(string input)
 		case 'W' :
 		case 'w' :
 			
-			if(this->level->getMapTile(this->player->getXLocation() , (this->player->getYLocation() - 1)) == '+')
+			if(this->level->getMapTile(this->player->getXLocation() , (this->player->getYLocation() - 1)) != ' ')
 			{
-				this->draw->addMessage("A wall blocks your way.") ;
+				int blocked = this->blockedPath(this->level->getMapTile(this->player->getXLocation() , (this->player->getYLocation() - 1))) ;
+				if(blocked != -1)
+				{
+					if(blocked == 1)
+					{
+						this->player->setYLocation((this->player->getYLocation() - 1)) ;
+					}
+					else
+					{
+						this->level->toggleDoor(this->player->getXLocation() , (this->player->getYLocation() - 1)) ;
+					}
+				}
 			}
 			else
 			{
@@ -145,9 +156,20 @@ void Game::handleKeyboardInput(string input)
 		case 'S' :
 		case 's' :
 			
-			if(this->level->getMapTile(this->player->getXLocation() , (this->player->getYLocation() + 1)) == '+')
+			if(this->level->getMapTile(this->player->getXLocation() , (this->player->getYLocation() + 1)) != ' ')
 			{
-				this->draw->addMessage("A wall blocks your way.") ;
+				int blocked = this->blockedPath(this->level->getMapTile(this->player->getXLocation() , (this->player->getYLocation() + 1))) ;
+				if(blocked != -1)
+				{
+					if(blocked == 1)
+					{
+						this->player->setYLocation((this->player->getYLocation() + 1)) ;
+					}
+					else
+					{
+						this->level->toggleDoor(this->player->getXLocation() , (this->player->getYLocation() + 1)) ;
+					}
+				}
 			}
 			else
 			{
@@ -159,9 +181,20 @@ void Game::handleKeyboardInput(string input)
 		case 'D' :
 		case 'd' :
 			
-			if(this->level->getMapTile((this->player->getXLocation() + 1) , this->player->getYLocation()) == '+')
+			if(this->level->getMapTile((this->player->getXLocation() + 1) , this->player->getYLocation()) != ' ')
 			{
-				this->draw->addMessage("A wall blocks your way.") ;
+				int blocked = this->blockedPath(this->level->getMapTile((this->player->getXLocation() + 1) , this->player->getYLocation())) ;
+				if(blocked != -1)
+				{
+					if(blocked == 1)
+					{
+						this->player->setXLocation((this->player->getXLocation() + 1)) ;
+					}
+					else
+					{
+						this->level->toggleDoor((this->player->getXLocation() + 1) , this->player->getYLocation()) ;
+					}
+				}
 			}
 			else
 			{
@@ -173,9 +206,20 @@ void Game::handleKeyboardInput(string input)
 		case 'A' :
 		case 'a' :
 			
-			if(this->level->getMapTile((this->player->getXLocation() - 1) , this->player->getYLocation()) == '+')
+			if(this->level->getMapTile((this->player->getXLocation() - 1) , this->player->getYLocation()) != ' ')
 			{
-				this->draw->addMessage("A wall blocks your way.") ;
+				int blocked = this->blockedPath(this->level->getMapTile((this->player->getXLocation() - 1) , this->player->getYLocation())) ;
+				if(blocked != -1)
+				{
+					if(blocked == 1)
+					{
+						this->player->setXLocation((this->player->getXLocation() - 1)) ;
+					}
+					else
+					{
+						this->level->toggleDoor((this->player->getXLocation() - 1) , this->player->getYLocation()) ;
+					}
+				}
 			}
 			else
 			{
@@ -195,9 +239,55 @@ void Game::handleKeyboardInput(string input)
 			{
 				this->level->loadLevel(-1 , this->player) ;
 			}
+			else
+			{
+				
+			}
 			
 		default :
 		
 			break ;
 	}
+}
+
+int Game::blockedPath(char blockage)
+{
+	int blocked = -1 ;
+	switch(blockage)
+	{
+		case Game::WALL :
+		
+			this->draw->addMessage("A wall blocks your way.") ;
+		
+			break ;
+			
+		case Game::SIGN :
+		
+			this->draw->addMessage("There is a sign here. It reads:") ;
+			//Add functuanality for sign reading here
+			
+			break ;
+			
+		case Game::CLOSED_DOOR :
+		
+			blocked = 0 ;
+		
+			break ;
+			
+		case Game::LEVEL_PROGRESS :
+		case Game::LEVEL_REGRESS :
+		case Game::OPEN_DOOR :
+		
+			blocked = 1 ;
+			
+			break ;
+			
+		default :
+		
+			this->draw->addMessage("Your path is blocked.") ;
+			
+			break ;
+	}
+	
+	return blocked ;
 }

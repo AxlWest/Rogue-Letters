@@ -28,4 +28,5 @@ class Level
 		int getMapHeight(void) ;
 		string* getMap(void) ;
 		char getMapTile(int xLoc , int yLoc) ;
+		void toggleDoor(int x , int y) ;
 } ;

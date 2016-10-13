@@ -12,6 +12,13 @@ class Game
 {
 	private :
 	
+	static const char WALL = '+' ;
+	static const char LEVEL_PROGRESS = 'E' ;
+	static const char LEVEL_REGRESS = '^' ;
+	static const char CLOSED_DOOR = 'D' ;
+	static const char OPEN_DOOR = '_' ;
+	static const char SIGN = 'S' ;
+	
 	Player* player ;
 	Draw* draw ;
 	Level* level ;
@@ -27,4 +34,6 @@ class Game
 	void run(void) ;
 	
 	int requestPlayerClass(void) ;
+	
+	int blockedPath(char blockage) ;
 } ;

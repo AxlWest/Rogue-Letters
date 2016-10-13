@@ -117,3 +117,15 @@ char Level::getMapTile(int xLoc , int yLoc)
 {
 	return this->levelMap[yLoc][xLoc] ;
 }
+
+void Level::toggleDoor(int x , int y)
+{
+	if(this->levelMap[y][x] == 'D')
+	{
+		this->levelMap[y][x] = '_' ;
+	}
+	else
+	{
+		this->levelMap[y][x] = 'D' ;
+	}
+}

@@ -27,4 +27,5 @@ class Level
 		
 		int getMapHeight(void) ;
 		string* getMap(void) ;
+		char getMapTile(int xLoc , int yLoc) ;
 } ;
