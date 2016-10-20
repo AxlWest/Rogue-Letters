@@ -129,3 +129,122 @@ void Level::toggleDoor(int x , int y)
 		this->levelMap[y][x] = 'D' ;
 	}
 }
+
+void Level::toggleSurroundingTiles(int bitKey , int x , int y)
+{
+	int count = 1 ;	
+	
+	if(this->surroundingTilesStore == NULL)
+	{
+		this->surroundingTilesStore = new char[Level::SURROUNDING_TILE_MAX] ;	
+	
+		if(bitKey & 1)
+		{
+			this->surroundingTilesStore[0] = this->getMapTile((x - 1) , (y - 1)) ;
+			this->levelMap[(x - 1)][(y - 1)] = (char)count ;
+		
+			count++ ;
+		}
+	
+		if(bitKey & 2)
+		{
+			this->surroundingTilesStore[1] = this->getMapTile(x , (y - 1)) ;
+			this->levelMap[x][(y - 1)] = (char)count ;
+		
+			count++ ;
+		}
+	
+		if(bitKey & 4)
+		{
+			this->surroundingTilesStore[2] = this->getMapTile((x + 1) , (y - 1)) ;
+			this->levelMap[(x + 1)][(y - 1)] = (char)count ;
+		
+			count++ ;
+		}
+	
+		if(bitKey & 8)
+		{
+			this->surroundingTilesStore[3] = this->getMapTile((x + 1) , y) ;
+			this->levelMap[(x + 1)][y] = (char)count ;
+		
+			count++ ;
+		}
+	
+		if(bitKey & 16)
+		{
+			this->surroundingTilesStore[4] = this->getMapTile((x + 1) , (y + 1)) ;
+			this->levelMap[(x - 1)][(y - 1)] = (char)count ;
+		
+			count++ ;
+		}
+	
+		if(bitKey & 32)
+		{
+			this->surroundingTilesStore[5] = this->getMapTile(x , (y - 1)) ;
+			this->levelMap[x][(y - 1)] = (char)count ;
+		
+			count++ ;
+		}
+	
+		if(bitKey & 64)
+		{
+			this->surroundingTilesStore[6] = this->getMapTile((x - 1) , (y + 1)) ;
+			this->levelMap[(x - 1)][(y + 1)] = (char)count ;
+		
+			count++ ;
+		}
+	
+		if(bitKey & 128)
+		{
+			this->surroundingTilesStore[7] = this->getMapTile((x - 1) , y) ;
+			this->levelMap[(x - 1)][y] = (char)count ;
+		
+			count++ ;
+		}
+	}
+	else
+	{
+		if(bitKey & 1)
+		{
+			this->levelMap[(x - 1)][(y - 1)] = this->surroundingTilesStore[0] ;
+		}
+	
+		if(bitKey & 2)
+		{
+			this->levelMap[x][(y - 1)] = this->surroundingTilesStore[1] ;
+		}
+	
+		if(bitKey & 4)
+		{
+			this->levelMap[(x + 1)][(y - 1)] = this->surroundingTilesStore[2] ;
+		}
+	
+		if(bitKey & 8)
+		{
+			this->levelMap[(x + 1)][y] = this->surroundingTilesStore[3] ;
+		}
+	
+		if(bitKey & 16)
+		{
+			this->levelMap[(x + 1)][(y + 1)] = this->surroundingTilesStore[4] ;
+		}
+	
+		if(bitKey & 32)
+		{
+			this->levelMap[x][(y - 1)] = this->surroundingTilesStore[5] ;
+		}
+	
+		if(bitKey & 64)
+		{
+			this->levelMap[(x - 1)][(y + 1)] = this->surroundingTilesStore[6] ;
+		}
+	
+		if(bitKey & 128)
+		{
+			this->levelMap[(x - 1)][y] = this->surroundingTilesStore[7] ;
+		}
+		
+		delete this->surroundingTilesStore ;
+		this->surroundingTilesStore = NULL ;
+	}
+}

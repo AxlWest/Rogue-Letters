@@ -18,6 +18,7 @@ class Game
 	static const char CLOSED_DOOR = 'D' ;
 	static const char OPEN_DOOR = '_' ;
 	static const char SIGN = 'S' ;
+	static const char ITEM = 'I' ;
 	
 	Player* player ;
 	Draw* draw ;
@@ -32,8 +33,9 @@ class Game
 	int init(void) ; //Initilization method
 	
 	void run(void) ;
+	void activateTile(int position) ;
 	
 	int requestPlayerClass(void) ;
-	
 	int blockedPath(char blockage) ;
+	int* surroundingTileCount(int x , int y) ;
 } ;

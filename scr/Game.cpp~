@@ -192,7 +192,7 @@ void Game::handleKeyboardInput(string input)
 					}
 					else
 					{
-						this->level->toggleDoor(this->player->getXLocation() + 1) , this->player->getYLocation()) ;
+						this->level->toggleDoor((this->player->getXLocation() + 1) , this->player->getYLocation()) ;
 					}
 				}
 			}
@@ -241,7 +241,25 @@ void Game::handleKeyboardInput(string input)
 			}
 			else
 			{
+				int* count ;
 				
+				count = this->surroundingTileCount(this->player->getXLocation() , this->player->getYLocation()) ;
+
+				if(count[0] > 1)
+				{
+				
+				}
+				else
+				{
+					for(int i = 1 ; i < 9 ; i++)
+					{
+						if(count[i] == 1)
+						{
+							cout << i << endl ;
+							this->activateTile(i) ;
+						}
+					}
+				}
 			}
 			
 		default :
@@ -277,6 +295,7 @@ int Game::blockedPath(char blockage)
 		case Game::LEVEL_PROGRESS :
 		case Game::LEVEL_REGRESS :
 		case Game::OPEN_DOOR :
+		case Game::ITEM :
 		
 			blocked = 1 ;
 			
@@ -290,4 +309,215 @@ int Game::blockedPath(char blockage)
 	}
 	
 	return blocked ;
+}
+int* Game::surroundingTileCount(int x , int y)
+{
+	//[x - 1 , y + 1],[x , y + 1],[x + 1 , y + 1]
+	//[x - 1 ,   y  ],[ 0  ,  0 ],[x + 1 ,   y 1]
+	//[x - 1 , y - 1],[x , y - 1],[x + 1 , y - 1]
+
+	int count[9] ;
+	count[0] = 0 ;
+	
+	char tile = this->level->getMapTile((x - 1) , (y + 1)) ;
+	if(tile != '+' && tile != ' ')
+	{
+		count[0]++ ;
+		count[1] = 1 ;
+		this->draw->addMessage("TOP LEFT") ;
+	}
+	
+	tile = this->level->getMapTile(x , (y - 1)) ;
+	
+	if(tile != '+' && tile != ' ')
+	{
+		count[0]++ ;
+		count[2] = 1 ;
+		this->draw->addMessage("TOP") ;
+	}
+	
+	tile = this->level->getMapTile((x + 1) , (y - 1)) ;
+	
+	if(tile != '+' && tile != ' ')
+	{
+		count[0]++ ;
+		count[3] = 1 ;
+		this->draw->addMessage("TOP RIGHT") ;
+	}
+	
+	tile = this->level->getMapTile((x + 1) , y) ;
+	
+	if(tile != '+' && tile != ' ')
+	{
+		count[0]++ ;
+		count[4] = 1 ;
+		this->draw->addMessage("RIGHT") ;
+	}
+	
+	tile = this->level->getMapTile((x + 1) , (y + 1)) ;
+	
+	if(tile != '+' && tile != ' ')
+	{
+		count[0]++ ;
+		count[5] = 1 ;
+		this->draw->addMessage("BOTTOM RIGHT") ;
+	}
+	
+	tile = this->level->getMapTile(x , (y + 1)) ;
+	
+	if(tile != '+' && tile != ' ')
+	{
+		count[0]++ ;
+		count[6] = 1 ;
+		this->draw->addMessage("DOWN") ;
+	}
+	
+	tile = this->level->getMapTile((x - 1) , (y + 1)) ;
+	
+	if(tile != '+' && tile != ' ')
+	{
+		count[0]++ ;
+		count[7] = 1 ;
+		this->draw->addMessage("BOTTOM LLEFT") ;
+	}
+	
+	tile = this->level->getMapTile((x - 1) , y) ;
+	
+	if(tile != '+' && tile != ' ')
+	{
+		count[0]++ ;
+		count[8] = 1 ;
+		this->draw->addMessage("LEFT") ;
+	}
+	
+	cout << count[0] << endl ;
+	
+	return count ;
+}
+
+void Game::activateTile(int position)
+{
+	//[x - 1 , y + 1],[x , y + 1],[x + 1 , y + 1]
+	//[x - 1 ,   y  ],[ 0  ,  0 ],[x + 1 ,   y 1]
+	//[x - 1 , y - 1],[x , y - 1],[x + 1 , y - 1]
+
+	char tile ;
+	int x ;
+	int y ;
+	
+	cout << "HERE" << endl ;
+	cout << position  << endl ;
+	
+	switch(position)
+	{
+		case 1 :
+			
+			cout << "Inside" << endl ;
+			
+			x = (this->player->getXLocation() - 1) ;
+			y = (this->player->getYLocation() - 1) ;
+			
+			cout << "Position set" << endl ;
+			
+			tile = this->level->getMapTile(x , y) ;
+			
+			cout << "Got tile: " << tile << endl ;
+			
+			break ;
+		
+		case 2 :
+		
+			x = (this->player->getXLocation()) ;
+			y = (this->player->getYLocation() - 1) ;
+		
+			tile = this->level->getMapTile(x , y) ;
+		
+			break ;
+		
+		case 3 :
+		
+			x = (this->player->getXLocation() + 1) ;
+			y = (this->player->getYLocation() - 1) ;
+		
+			tile = this->level->getMapTile(x , y) ;
+		
+			break ;
+			
+		case 4 :
+		
+			x = (this->player->getXLocation() + 1) ;
+			y = (this->player->getYLocation()) ;
+		
+			tile = this->level->getMapTile(x , y) ;
+		
+			break ;
+			
+		case 5 :
+		
+			x = (this->player->getXLocation() + 1) ;
+			y = (this->player->getYLocation() + 1) ;
+		
+			tile = this->level->getMapTile(x , y) ;
+		
+			break ;
+			
+		case 6 :
+		
+			x = (this->player->getXLocation()) ;
+			y = (this->player->getYLocation() + 1) ;
+		
+			tile = this->level->getMapTile(x , y) ;
+		
+			break ;
+			
+		case 7 :
+		
+			x = (this->player->getXLocation() - 1) ;
+			y = (this->player->getYLocation() + 1) ;
+		
+			tile = this->level->getMapTile((x - 1) , (y + 1)) ;
+		
+			break ;
+			
+		case 8 :
+		
+			tile = this->level->getMapTile((x - 1) , y) ;
+		
+			break ;
+			
+		default :
+				
+			this->draw->addMessage("TOO LARGE") ;
+				
+			break ;
+	}
+	
+	cout << "HERE" ;
+	
+	switch(tile)
+	{
+		case Game::SIGN :
+		
+			this->draw->addMessage("There is a sign here. It reads:") ;
+			//Add functuanality for sign reading here
+			
+			break ;
+			
+		case Game::ITEM :
+		
+			this->draw->addMessage("You have found an item:") ;
+			
+			break ;
+			
+		case Game::OPEN_DOOR :
+		case Game::CLOSED_DOOR :
+
+			this->level->toggleDoor(x , y) ;
+
+			break ;
+			
+		default :
+		
+			break ;
+	}
 }

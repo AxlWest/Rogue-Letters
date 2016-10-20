@@ -11,8 +11,11 @@ class Level
 
 	private :
 		
+		static const int SURROUNDING_TILE_MAX = 8 ;
+		
 		int currentLevel ; //Stores the current level
 		int mapHeight ; //Stores number of lines in the map
+		char* surroundingTilesStore ;
 		
 		string levelMap[500] ; //An array of strings containing the levels map
 		
@@ -29,4 +32,5 @@ class Level
 		string* getMap(void) ;
 		char getMapTile(int xLoc , int yLoc) ;
 		void toggleDoor(int x , int y) ;
+		void toggleSurroundingTiles(int bitKey , int x , int y) ;
 } ;

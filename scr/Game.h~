@@ -32,8 +32,9 @@ class Game
 	int init(void) ; //Initilization method
 	
 	void run(void) ;
+	void activateTile(int position) ;
 	
 	int requestPlayerClass(void) ;
-	
-	bool blockedPath(char blockage) ;
+	int blockedPath(char blockage) ;
+	int* surroundingTileCount(int x , int y) ;
 } ;
