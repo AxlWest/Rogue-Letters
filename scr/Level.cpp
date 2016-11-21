@@ -14,6 +14,8 @@ using std::endl ;
 Level::Level(void)
 {
 	this->currentLevel = 0 ;
+	
+	this->surroundingTilesStore = NULL ;
 }
 
 Level::~Level(void)
@@ -132,7 +134,9 @@ void Level::toggleDoor(int x , int y)
 
 void Level::toggleSurroundingTiles(int bitKey , int x , int y)
 {
-	int count = 1 ;	
+	int count = 1 ;
+	
+	cout << "BitKey: " << bitKey << endl ;
 	
 	if(this->surroundingTilesStore == NULL)
 	{
@@ -141,7 +145,7 @@ void Level::toggleSurroundingTiles(int bitKey , int x , int y)
 		if(bitKey & 1)
 		{
 			this->surroundingTilesStore[0] = this->getMapTile((x - 1) , (y - 1)) ;
-			this->levelMap[(x - 1)][(y - 1)] = (char)count ;
+			this->levelMap[(y - 1)][(x - 1)] = convertNumberToString(count)[0] ;
 		
 			count++ ;
 		}
@@ -149,7 +153,7 @@ void Level::toggleSurroundingTiles(int bitKey , int x , int y)
 		if(bitKey & 2)
 		{
 			this->surroundingTilesStore[1] = this->getMapTile(x , (y - 1)) ;
-			this->levelMap[x][(y - 1)] = (char)count ;
+			this->levelMap[(y - 1)][x] = convertNumberToString(count)[0] ;
 		
 			count++ ;
 		}
@@ -157,7 +161,7 @@ void Level::toggleSurroundingTiles(int bitKey , int x , int y)
 		if(bitKey & 4)
 		{
 			this->surroundingTilesStore[2] = this->getMapTile((x + 1) , (y - 1)) ;
-			this->levelMap[(x + 1)][(y - 1)] = (char)count ;
+			this->levelMap[(y - 1)][(x + 1)] = convertNumberToString(count)[0] ;
 		
 			count++ ;
 		}
@@ -165,7 +169,7 @@ void Level::toggleSurroundingTiles(int bitKey , int x , int y)
 		if(bitKey & 8)
 		{
 			this->surroundingTilesStore[3] = this->getMapTile((x + 1) , y) ;
-			this->levelMap[(x + 1)][y] = (char)count ;
+			this->levelMap[y][(x + 1)] = convertNumberToString(count)[0] ;
 		
 			count++ ;
 		}
@@ -173,15 +177,15 @@ void Level::toggleSurroundingTiles(int bitKey , int x , int y)
 		if(bitKey & 16)
 		{
 			this->surroundingTilesStore[4] = this->getMapTile((x + 1) , (y + 1)) ;
-			this->levelMap[(x - 1)][(y - 1)] = (char)count ;
+			this->levelMap[(y + 1)][(x + 1)] = convertNumberToString(count)[0] ;
 		
 			count++ ;
 		}
 	
 		if(bitKey & 32)
 		{
-			this->surroundingTilesStore[5] = this->getMapTile(x , (y - 1)) ;
-			this->levelMap[x][(y - 1)] = (char)count ;
+			this->surroundingTilesStore[5] = this->getMapTile(x , (y + 1)) ;
+			this->levelMap[(y + 1)][x] = convertNumberToString(count)[0] ;
 		
 			count++ ;
 		}
@@ -189,7 +193,7 @@ void Level::toggleSurroundingTiles(int bitKey , int x , int y)
 		if(bitKey & 64)
 		{
 			this->surroundingTilesStore[6] = this->getMapTile((x - 1) , (y + 1)) ;
-			this->levelMap[(x - 1)][(y + 1)] = (char)count ;
+			this->levelMap[(y + 1)][(x - 1)] = convertNumberToString(count)[0] ;
 		
 			count++ ;
 		}
@@ -197,54 +201,69 @@ void Level::toggleSurroundingTiles(int bitKey , int x , int y)
 		if(bitKey & 128)
 		{
 			this->surroundingTilesStore[7] = this->getMapTile((x - 1) , y) ;
-			this->levelMap[(x - 1)][y] = (char)count ;
+			this->levelMap[y][(x - 1)] = convertNumberToString(count)[0] ;
 		
 			count++ ;
 		}
 	}
 	else
-	{
+	{	
 		if(bitKey & 1)
 		{
-			this->levelMap[(x - 1)][(y - 1)] = this->surroundingTilesStore[0] ;
+			this->levelMap[(y - 1)][(x - 1)] = this->surroundingTilesStore[0] ;
 		}
 	
 		if(bitKey & 2)
 		{
-			this->levelMap[x][(y - 1)] = this->surroundingTilesStore[1] ;
+			this->levelMap[(y - 1)][x] = this->surroundingTilesStore[1] ;
 		}
 	
 		if(bitKey & 4)
 		{
-			this->levelMap[(x + 1)][(y - 1)] = this->surroundingTilesStore[2] ;
+			this->levelMap[(y - 1)][(x + 1)] = this->surroundingTilesStore[2] ;
 		}
 	
 		if(bitKey & 8)
 		{
-			this->levelMap[(x + 1)][y] = this->surroundingTilesStore[3] ;
+			this->levelMap[y][(x + 1)] = this->surroundingTilesStore[3] ;
 		}
 	
 		if(bitKey & 16)
 		{
-			this->levelMap[(x + 1)][(y + 1)] = this->surroundingTilesStore[4] ;
+			this->levelMap[(y + 1)][(x + 1)] = this->surroundingTilesStore[4] ;
 		}
 	
 		if(bitKey & 32)
 		{
-			this->levelMap[x][(y - 1)] = this->surroundingTilesStore[5] ;
+			this->levelMap[(y + 1)][x] = this->surroundingTilesStore[5] ;
 		}
 	
 		if(bitKey & 64)
 		{
-			this->levelMap[(x - 1)][(y + 1)] = this->surroundingTilesStore[6] ;
+			this->levelMap[(y + 1)][(x - 1)] = this->surroundingTilesStore[6] ;
 		}
 	
 		if(bitKey & 128)
 		{
-			this->levelMap[(x - 1)][y] = this->surroundingTilesStore[7] ;
+			this->levelMap[y][(x - 1)] = this->surroundingTilesStore[7] ;
 		}
 		
-		delete this->surroundingTilesStore ;
-		this->surroundingTilesStore = NULL ;
+		if(this->surroundingTilesStore != NULL)
+		{
+			delete this->surroundingTilesStore ;
+			this->surroundingTilesStore = NULL ;
+		}
 	}
+}
+
+string Level::convertNumberToString(int number)
+{
+	string convertedNumber ;
+	ostringstream convert ;
+		
+	convert << number ;
+	
+	convertedNumber = convert.str() ;
+	
+	return convertedNumber ;
 }

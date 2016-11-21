@@ -33,4 +33,5 @@ class Level
 		char getMapTile(int xLoc , int yLoc) ;
 		void toggleDoor(int x , int y) ;
 		void toggleSurroundingTiles(int bitKey , int x , int y) ;
+		string convertNumberToString(int number) ;
 } ;

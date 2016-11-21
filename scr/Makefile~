@@ -1,13 +1,13 @@
 # The compiler (CXX) is using g++
-CXX = g++
+CXX = g++ -lncurses
 
 # CFLAGS will be options passed to the compiler
-CXXFLAGS = -c -Wall
-OBJS = Main.o Game.o Player.o InventorySlot.o Draw.o
+CXXFLAGS = -c -Wall -lncurses
+OBJS = Main.o Game.o Player.o InventorySlot.o Draw.o Level.o
 
-all: RogueLetters
+all: RogueLetters -lncurses
 
-RogueLetters: Main.o Game.o Player.o InventorySlot.o Draw.o
+RogueLetters: Main.o Game.o Player.o InventorySlot.o Draw.o Level.o
 	$(CXX) $(OBJS) -o ../RogueLetters
 	
 main.o: Main.cpp
@@ -24,6 +24,9 @@ InventorySlot.o:
 	
 Draw.o:
 	$(CXX) $(CXXFLAGS) Draw.h Draw.cpp
+	
+Level.o:
+	$(CXX) $(CXXFLAGS) Level.h Level.cpp
 	
 .PHONY: clean
 

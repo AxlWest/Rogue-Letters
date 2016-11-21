@@ -1,5 +1,5 @@
 # The compiler (CXX) is using g++
-CXX = g++
+CXX = g++ -lncurses
 
 # CFLAGS will be options passed to the compiler
 CXXFLAGS = -c -Wall

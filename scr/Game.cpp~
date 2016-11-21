@@ -3,6 +3,9 @@
 #include "Draw.h"
 #include "Level.h"
 
+#include <curses.h>
+#include <ncurses.h>
+
 #define NULL 0
 
 using std::cin ;
@@ -39,6 +42,8 @@ Game::~Game()
 
 int Game::init()
 {
+	//initscr() ;	
+	
 	this->player = new Player() ;
 	this->player->init(this->requestPlayerClass()) ;
 	
@@ -80,11 +85,28 @@ void Game::run()
 		string temp ;
 		cin >> temp ;
 		
+		/*char ch ;
+     	bool bob = false ;
+     	while(bob == false)
+     	{
+		if ((ch = getch()) == ERR) {
+		  /* user hasn't responded
+		   ...
+		  */
+		/*}
+		else {
+		  bob = true ;
+		}
+		}*/
+     
+		
 		this->handleKeyboardInput(temp) ;
 		
 		this->draw->updatePlayerStats(this->player) ;
 		this->draw->updateMap(this->level->getMap() , this->level->getMapHeight() , this->player->getXLocation() , this->player->getYLocation()) ;
 	}
+	
+	//endwin() ;
 }
 
 int Game::requestPlayerClass()
@@ -97,6 +119,15 @@ int Game::requestPlayerClass()
 		cout << "R - Rogue" << endl ;
 		cout << "M - Mage" << endl ;
 		cout << "Enter your choice: " ;
+		
+		/*string bob = "W - Warrior\n" ;
+		
+		printw(bob.c_str()) ;
+		printw("R - Rogue\n") ;
+		printw("M - Mage\n") ;
+		printw("Enter your choice: \n") ;
+		refresh() ;*/
+		
 		cin >> choice ;
 	
 		if(choice == "W" || choice == "w" || choice == "Warrior" || choice == "warrior")
@@ -247,7 +278,41 @@ void Game::handleKeyboardInput(string input)
 
 				if(count[0] > 1)
 				{
-				
+					int bitKey = 0 ;
+					int* countKey = NULL ;
+					
+					int k = 0 ;
+					countKey = new int[8] ;
+					
+					for(int i = 0 ; i < 8 ; i++)
+					{
+						if(count[(i + 1)] == 1)
+						{
+							bitKey ^= 1 << i ;
+							countKey[k] = (i + 1) ;
+							k++ ;
+						}
+					}
+					
+					this->level->toggleSurroundingTiles(bitKey , this->player->getXLocation() , this->player->getYLocation()) ;
+					
+					int tileChoice = 0 ;
+					
+					tileChoice = this->surroundingTileInput(bitKey , count[0]) ;
+					
+					this->activateTile(countKey[tileChoice - 1]) ;
+					
+					if(count != NULL)
+					{
+						delete count ;
+						count = NULL ;
+					}
+					
+					if(countKey != NULL)
+					{
+						delete countKey ;
+						countKey = NULL ;
+					}
 				}
 				else
 				{
@@ -255,7 +320,7 @@ void Game::handleKeyboardInput(string input)
 					{
 						if(count[i] == 1)
 						{
-							cout << i << endl ;
+							//cout << i << endl ;
 							this->activateTile(i) ;
 						}
 					}
@@ -316,7 +381,10 @@ int* Game::surroundingTileCount(int x , int y)
 	//[x - 1 ,   y  ],[ 0  ,  0 ],[x + 1 ,   y 1]
 	//[x - 1 , y - 1],[x , y - 1],[x + 1 , y - 1]
 
-	int count[9] ;
+	int* count = NULL ;
+	
+	count = new int[9] ;
+	
 	count[0] = 0 ;
 	
 	char tile = this->level->getMapTile((x - 1) , (y + 1)) ;
@@ -324,7 +392,7 @@ int* Game::surroundingTileCount(int x , int y)
 	{
 		count[0]++ ;
 		count[1] = 1 ;
-		this->draw->addMessage("TOP LEFT") ;
+		//this->draw->addMessage("TOP LEFT") ;
 	}
 	
 	tile = this->level->getMapTile(x , (y - 1)) ;
@@ -333,7 +401,7 @@ int* Game::surroundingTileCount(int x , int y)
 	{
 		count[0]++ ;
 		count[2] = 1 ;
-		this->draw->addMessage("TOP") ;
+		//this->draw->addMessage("TOP") ;
 	}
 	
 	tile = this->level->getMapTile((x + 1) , (y - 1)) ;
@@ -342,7 +410,7 @@ int* Game::surroundingTileCount(int x , int y)
 	{
 		count[0]++ ;
 		count[3] = 1 ;
-		this->draw->addMessage("TOP RIGHT") ;
+		//this->draw->addMessage("TOP RIGHT") ;
 	}
 	
 	tile = this->level->getMapTile((x + 1) , y) ;
@@ -351,7 +419,7 @@ int* Game::surroundingTileCount(int x , int y)
 	{
 		count[0]++ ;
 		count[4] = 1 ;
-		this->draw->addMessage("RIGHT") ;
+		//this->draw->addMessage("RIGHT") ;
 	}
 	
 	tile = this->level->getMapTile((x + 1) , (y + 1)) ;
@@ -360,7 +428,7 @@ int* Game::surroundingTileCount(int x , int y)
 	{
 		count[0]++ ;
 		count[5] = 1 ;
-		this->draw->addMessage("BOTTOM RIGHT") ;
+		//this->draw->addMessage("BOTTOM RIGHT") ;
 	}
 	
 	tile = this->level->getMapTile(x , (y + 1)) ;
@@ -369,7 +437,7 @@ int* Game::surroundingTileCount(int x , int y)
 	{
 		count[0]++ ;
 		count[6] = 1 ;
-		this->draw->addMessage("DOWN") ;
+		//this->draw->addMessage("DOWN") ;
 	}
 	
 	tile = this->level->getMapTile((x - 1) , (y + 1)) ;
@@ -378,7 +446,7 @@ int* Game::surroundingTileCount(int x , int y)
 	{
 		count[0]++ ;
 		count[7] = 1 ;
-		this->draw->addMessage("BOTTOM LLEFT") ;
+		//this->draw->addMessage("BOTTOM LLEFT") ;
 	}
 	
 	tile = this->level->getMapTile((x - 1) , y) ;
@@ -387,10 +455,10 @@ int* Game::surroundingTileCount(int x , int y)
 	{
 		count[0]++ ;
 		count[8] = 1 ;
-		this->draw->addMessage("LEFT") ;
+		//this->draw->addMessage("LEFT") ;
 	}
 	
-	cout << count[0] << endl ;
+	//cout << count[0] << endl ;
 	
 	return count ;
 }
@@ -405,23 +473,14 @@ void Game::activateTile(int position)
 	int x ;
 	int y ;
 	
-	cout << "HERE" << endl ;
-	cout << position  << endl ;
-	
 	switch(position)
 	{
 		case 1 :
 			
-			cout << "Inside" << endl ;
-			
 			x = (this->player->getXLocation() - 1) ;
 			y = (this->player->getYLocation() - 1) ;
 			
-			cout << "Position set" << endl ;
-			
 			tile = this->level->getMapTile(x , y) ;
-			
-			cout << "Got tile: " << tile << endl ;
 			
 			break ;
 		
@@ -475,13 +534,16 @@ void Game::activateTile(int position)
 			x = (this->player->getXLocation() - 1) ;
 			y = (this->player->getYLocation() + 1) ;
 		
-			tile = this->level->getMapTile((x - 1) , (y + 1)) ;
+			tile = this->level->getMapTile(x , y) ;
 		
 			break ;
 			
 		case 8 :
-		
-			tile = this->level->getMapTile((x - 1) , y) ;
+			
+			x = (this->player->getXLocation() - 1) ;
+			y = (this->player->getYLocation()) ;
+			
+			tile = this->level->getMapTile(x , y) ;
 		
 			break ;
 			
@@ -491,8 +553,6 @@ void Game::activateTile(int position)
 				
 			break ;
 	}
-	
-	cout << "HERE" ;
 	
 	switch(tile)
 	{
@@ -520,4 +580,163 @@ void Game::activateTile(int position)
 		
 			break ;
 	}
+}
+
+int Game::surroundingTileInput(int bitKey , int count)
+{
+	bool toggled = true ;
+	
+	string surroundingTileInput ;
+					
+	this->draw->addMessage("Select tile to activate (Press ""t"" to toggle).") ;
+	
+	this->draw->updateMap(this->level->getMap() , this->level->getMapHeight() , this->player->getXLocation() , this->player->getYLocation()) ;
+	
+	do
+	{
+		this->draw->drawScreen() ;
+		cin >> surroundingTileInput ;
+	
+		cout << count << endl ;
+		
+		switch(surroundingTileInput[0])
+		{
+			case '1' :
+				
+				if(1 <= count)
+				{
+					if(toggled == true)
+					{
+						this->level->toggleSurroundingTiles(bitKey , this->player->getXLocation() , this->player->getYLocation()) ;
+					}
+				
+					return 1 ;
+				}
+			
+				break ;
+				
+			case '2' :
+			
+				if(2 <= count)
+				{
+					if(toggled == true)
+					{
+						this->level->toggleSurroundingTiles(bitKey , this->player->getXLocation() , this->player->getYLocation()) ;
+					}
+				
+					return 2 ;
+				}
+			
+				break ;
+				
+			case '3' :
+			
+				if(3 <= count)
+				{
+					if(toggled == true)
+					{
+						this->level->toggleSurroundingTiles(bitKey , this->player->getXLocation() , this->player->getYLocation()) ;
+					}
+				
+					return 3 ;
+				}
+				
+				break ;
+				
+			case '4' :
+			
+				if(4 <= count)
+				{
+					if(toggled == true)
+					{
+						this->level->toggleSurroundingTiles(bitKey , this->player->getXLocation() , this->player->getYLocation()) ;
+					}
+				
+					return 4 ;
+				}
+				
+				break ;
+				
+			case '5' :
+			
+				if(5 <= count)
+				{
+					if(toggled == true)
+					{
+						this->level->toggleSurroundingTiles(bitKey , this->player->getXLocation() , this->player->getYLocation()) ;
+					}
+				
+					return 5 ;
+				}
+				
+				break ;
+				
+			case '6' :
+			
+				if(6 <= count)
+				{
+					if(toggled == true)
+					{
+						this->level->toggleSurroundingTiles(bitKey , this->player->getXLocation() , this->player->getYLocation()) ;
+					}
+				
+					return 6 ;
+				}
+				
+				break ;
+				
+			case '7' :
+			
+				if(7 <= count)
+				{
+					if(toggled == true)
+					{
+						this->level->toggleSurroundingTiles(bitKey , this->player->getXLocation() , this->player->getYLocation()) ;
+					}
+				
+					return 7 ;
+				}
+				
+				break ;
+				
+			case '8' :
+			
+				if(8 <= count)
+				{
+					if(toggled == true)
+					{
+						this->level->toggleSurroundingTiles(bitKey , this->player->getXLocation() , this->player->getYLocation()) ;
+					}
+				
+					return 8 ;
+				}
+			
+				break ;
+				
+			case 't' :
+			case 'T' :
+			
+				this->level->toggleSurroundingTiles(bitKey , this->player->getXLocation() , this->player->getYLocation()) ;
+				
+				if(toggled == true)
+				{
+					toggled = false ;
+				}
+				else
+				{
+					toggled = true ;
+				}
+				
+				this->draw->updateMap(this->level->getMap() , this->level->getMapHeight() , this->player->getXLocation() , this->player->getYLocation()) ;
+			
+				break ;
+				
+			default :
+			
+				cout << "ARGG!!" << endl ;
+			
+				break ;
+		}
+	}
+	while(1) ;
 }
