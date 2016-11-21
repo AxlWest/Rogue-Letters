@@ -3,6 +3,8 @@
 #include <fstream>
 #include <sstream>
 #include <string>
+#include <curses.h>
+#include <ncurses.h>
 
 using std::cout ;
 using std::endl ;
@@ -48,7 +50,10 @@ int Draw::init(void)
 
 void Draw::drawScreen(void)
 {
-    cout << this->screen ;
+    //cout << this->screen ;
+    clear() ;
+    printw(this->screen.c_str()) ;
+    refresh() ;
 }
 
 void Draw::updatePlayerStats(Player* player)

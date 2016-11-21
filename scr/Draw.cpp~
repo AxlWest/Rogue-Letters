@@ -3,6 +3,8 @@
 #include <fstream>
 #include <sstream>
 #include <string>
+#include <curses.h>
+#include <ncurses.h>
 
 using std::cout ;
 using std::endl ;
@@ -48,7 +50,10 @@ int Draw::init(void)
 
 void Draw::drawScreen(void)
 {
-    cout << this->screen ;
+    //cout << this->screen ;
+    clear()
+    printw(this->screen.c_str()) ;
+    refresh() ;
 }
 
 void Draw::updatePlayerStats(Player* player)
@@ -293,7 +298,7 @@ void Draw::updateMap(string* map , int mapHeight , int playerX , int playerY)
 		}
 	}
 	
-	this->screen[(this->SCREEN_WIDTH * 7) + 32] = 'P' ;
+	this->screen[(this->SCREEN_WIDTH * 7) + 31] = 'P' ;
 }
 
 void Draw::addMessage(string message)

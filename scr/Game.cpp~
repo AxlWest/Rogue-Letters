@@ -42,7 +42,9 @@ Game::~Game()
 
 int Game::init()
 {
-	//initscr() ;	
+	initscr() ;
+	cbreak();
+	echo() ;
 	
 	this->player = new Player() ;
 	this->player->init(this->requestPlayerClass()) ;
@@ -75,6 +77,9 @@ void Game::run()
 		return ;
 	}
 	
+	noecho() ;
+	clear()
+	
 	this->draw->updatePlayerStats(this->player) ;
 	this->draw->updateMap(this->level->getMap() , this->level->getMapHeight() , this->player->getXLocation() , this->player->getYLocation()) ;
 	
@@ -83,22 +88,7 @@ void Game::run()
 		this->draw->drawScreen() ;
 		
 		string temp ;
-		cin >> temp ;
-		
-		/*char ch ;
-     	bool bob = false ;
-     	while(bob == false)
-     	{
-		if ((ch = getch()) == ERR) {
-		  /* user hasn't responded
-		   ...
-		  */
-		/*}
-		else {
-		  bob = true ;
-		}
-		}*/
-     
+		temp = getUserInput() ;
 		
 		this->handleKeyboardInput(temp) ;
 		
@@ -106,7 +96,25 @@ void Game::run()
 		this->draw->updateMap(this->level->getMap() , this->level->getMapHeight() , this->player->getXLocation() , this->player->getYLocation()) ;
 	}
 	
-	//endwin() ;
+	endwin() ;
+}
+
+char Game::getUserInput()
+{
+	char input ;
+	
+	do
+	{
+		if((input = getch()) == ERR)
+		{
+		  //No input
+		}
+		else
+		{
+		  return input ;
+		}	
+	}
+	while(1) ;
 }
 
 int Game::requestPlayerClass()
@@ -114,40 +122,39 @@ int Game::requestPlayerClass()
 	do
 	{
 		string choice ;
-		cout << "Player class types:" << endl ;
+		/*cout << "Player class types:" << endl ;
 		cout << "W - Warrior" << endl ;
 		cout << "R - Rogue" << endl ;
 		cout << "M - Mage" << endl ;
-		cout << "Enter your choice: " ;
+		cout << "Enter your choice: " ;*/
 		
-		/*string bob = "W - Warrior\n" ;
-		
-		printw(bob.c_str()) ;
+		printw("W - Warrior\n") ;
 		printw("R - Rogue\n") ;
 		printw("M - Mage\n") ;
-		printw("Enter your choice: \n") ;
-		refresh() ;*/
+		printw("Enter your choice: ") ;
+		refresh() ;
 		
-		cin >> choice ;
+		//cin >> choice ;
+		choice = getUserInput() ;
 	
 		if(choice == "W" || choice == "w" || choice == "Warrior" || choice == "warrior")
 		{
-			cout << "" << endl ;
-			cout << "Your sellection: Warrior" << endl ;
+			printw("\n") ;
+			printw("Your sellection: Warrior\n") ;
 			
 			return Player::WARRIOR ;
 		}
 		else if(choice == "R" || choice == "r" || choice == "Rogue" || choice == "rogue")
 		{
-			cout << "" << endl ;
-			cout << "Your sellection: Rogue" << endl ;
+			printw("\n") ;
+			printw("Your sellection: Rogue\n") ;
 			
 			return Player::ROGUE ;
 		}
 		else if(choice == "M" || choice == "m" || choice == "Mage" || choice == "mage")
 		{
-			cout << "" << endl ;
-			cout << "Your sellection: Mage" << endl ;
+			printw("\n") ;
+			printw("Your sellection: Mage\n") ;
 		
 			return Player::MAGE ;
 		}
@@ -595,9 +602,10 @@ int Game::surroundingTileInput(int bitKey , int count)
 	do
 	{
 		this->draw->drawScreen() ;
-		cin >> surroundingTileInput ;
+		//cin >> surroundingTileInput ;
+		surroundingTileInput = getUserInput() ;
 	
-		cout << count << endl ;
+		//cout << count << endl ;
 		
 		switch(surroundingTileInput[0])
 		{
@@ -733,7 +741,7 @@ int Game::surroundingTileInput(int bitKey , int count)
 				
 			default :
 			
-				cout << "ARGG!!" << endl ;
+				//cout << "ARGG!!" << endl ;
 			
 				break ;
 		}

@@ -39,4 +39,5 @@ class Game
 	int blockedPath(char blockage) ;
 	int* surroundingTileCount(int x , int y) ;
 	int surroundingTileInput(int bitKey , int count) ;
+	char getUserInput(void) ;
 } ;

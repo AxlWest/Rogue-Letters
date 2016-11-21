@@ -46,8 +46,8 @@ void Level::loadLevel(int modifier , Player* player)
 				player->setXLocation(k) ;
 				player->setYLocation(i) ;
 				
-				cout << "x = " << k << endl ;
-				cout << "y = " << i << endl ;
+				//cout << "x = " << k << endl ;
+				//cout << "y = " << i << endl ;
 				
 				if(this->currentLevel != 0)
 				{
@@ -98,7 +98,7 @@ int Level::loadMap(void)
 	}
 	else
 	{
-		cout << "error opening file" << endl ;
+		//cout << "error opening file" << endl ;
 		return -1 ;
 	}
 

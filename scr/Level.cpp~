@@ -46,8 +46,8 @@ void Level::loadLevel(int modifier , Player* player)
 				player->setXLocation(k) ;
 				player->setYLocation(i) ;
 				
-				cout << "x = " << k << endl ;
-				cout << "y = " << i << endl ;
+				//cout << "x = " << k << endl ;
+				//cout << "y = " << i << endl ;
 				
 				if(this->currentLevel != 0)
 				{
@@ -136,7 +136,7 @@ void Level::toggleSurroundingTiles(int bitKey , int x , int y)
 {
 	int count = 1 ;
 	
-	//cout << bitKey << endl ;
+	cout << "BitKey: " << bitKey << endl ;
 	
 	if(this->surroundingTilesStore == NULL)
 	{
