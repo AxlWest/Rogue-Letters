@@ -3,11 +3,11 @@ CXX = g++ -lncurses
 
 # CFLAGS will be options passed to the compiler
 CXXFLAGS = -c -Wall
-OBJS = Main.o Game.o Player.o InventorySlot.o Draw.o Level.o
+OBJS = Main.o Game.o Player.o InventorySlot.o Draw.o Level.o Enemy.o
 
 all: RogueLetters
 
-RogueLetters: Main.o Game.o Player.o InventorySlot.o Draw.o Level.o
+RogueLetters: Main.o Game.o Player.o InventorySlot.o Draw.o Level.o Enemy.o
 	$(CXX) $(OBJS) -o ../RogueLetters
 	
 main.o: Main.cpp
@@ -27,6 +27,9 @@ Draw.o:
 	
 Level.o:
 	$(CXX) $(CXXFLAGS) Level.h Level.cpp
+	
+Enemy.o:
+	$(CXX) $(CXXFLAGS) Enemy.h Enemy.cpp
 	
 .PHONY: clean
 

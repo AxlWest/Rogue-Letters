@@ -53,6 +53,7 @@ void Draw::drawScreen(void)
     //cout << this->screen ;
     clear() ;
     printw(this->screen.c_str()) ;
+    printw("\n") ;
     refresh() ;
 }
 

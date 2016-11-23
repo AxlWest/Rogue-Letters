@@ -51,7 +51,7 @@ int Draw::init(void)
 void Draw::drawScreen(void)
 {
     //cout << this->screen ;
-    clear()
+    clear() ;
     printw(this->screen.c_str()) ;
     refresh() ;
 }

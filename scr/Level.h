@@ -12,14 +12,17 @@ class Level
 	private :
 		
 		static const int SURROUNDING_TILE_MAX = 8 ;
+		static const int MAX_MAP_SIZE = 500 ;
 		
 		int currentLevel ; //Stores the current level
 		int mapHeight ; //Stores number of lines in the map
 		char* surroundingTilesStore ;
 		
-		string levelMap[500] ; //An array of strings containing the levels map
+		string levelMap[MAX_MAP_SIZE] ; //An array of strings containing the levels map
+		string rawMap[MAX_MAP_SIZE] ; //An array that stores the raw map data
 		
 		int loadMap(void) ;
+		void convertMap(void) ;
 	
 	public :
 	

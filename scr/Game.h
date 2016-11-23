@@ -7,6 +7,7 @@ using std::string ;
 class Player ;
 class Draw ;
 class Level ;
+class Enemy ;
 
 class Game
 {
@@ -23,6 +24,8 @@ class Game
 	Player* player ;
 	Draw* draw ;
 	Level* level ;
+	
+	Enemy* enemy ; //For Testing
 	
 	void handleKeyboardInput(string input) ;
 

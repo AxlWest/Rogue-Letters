@@ -33,6 +33,7 @@ void Level::loadLevel(int modifier , Player* player)
 	}
 	
 	this->loadMap() ;
+	this->convertMap() ;
 	
 	for(int i = 0 ; i < this->mapHeight ; i++)
 	{
@@ -90,7 +91,8 @@ int Level::loadMap(void)
 		string line ;
 		while(getline(file , line))
 		{
-			this->levelMap[this->mapHeight] = line ;
+			//this->levelMap[this->mapHeight] = line ;
+			this->rawMap[this->mapHeight] = line ;
 			this->mapHeight++ ;
 		}
 		
@@ -98,11 +100,31 @@ int Level::loadMap(void)
 	}
 	else
 	{
-		cout << "error opening file" << endl ;
+		//cout << "error opening file" << endl ;
 		return -1 ;
 	}
 
 	return 0 ; //Map succesfully loaded
+}
+
+void Level::convertMap(void)
+{
+	for(int i = 0 ; i < MAX_MAP_SIZE ; i++)
+	{
+		this->levelMap[i].assign(this->rawMap[i]) ;	
+		
+		for(int k = 0 ; k < levelMap[i].length() ; k++)
+		{
+			if(this->levelMap[i][k] == '#')
+			{
+				this->levelMap[i][k] = ' ' ;
+			}
+			else
+			{
+				this->levelMap[i][k] = this->rawMap[i][k] ;
+			}
+		}
+	}
 }
 
 int Level::getMapHeight(void)

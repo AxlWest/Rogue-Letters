@@ -2,6 +2,7 @@
 #include "Player.h"
 #include "Draw.h"
 #include "Level.h"
+#include "Enemy.h"
 
 #include <curses.h>
 #include <ncurses.h>
@@ -44,7 +45,7 @@ int Game::init()
 {
 	initscr() ;
 	cbreak();
-	echo() ;
+	echo() ; //Allows the user to see his input
 	
 	this->player = new Player() ;
 	this->player->init(this->requestPlayerClass()) ;
@@ -77,13 +78,14 @@ void Game::run()
 		return ;
 	}
 	
-	noecho() ;
-	clear() ;
+	noecho() ; //Does not display the users input
+	curs_set(0) ; //Make the curser invisible
+	clear() ; //Clears the screen
 	
 	this->draw->updatePlayerStats(this->player) ;
 	this->draw->updateMap(this->level->getMap() , this->level->getMapHeight() , this->player->getXLocation() , this->player->getYLocation()) ;
 	
-	for(int i = 0 ; i < 30 ; i++)
+	for(int i = 0 ; i < 100 ; i++)
 	{
 		this->draw->drawScreen() ;
 		
