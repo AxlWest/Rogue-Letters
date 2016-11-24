@@ -17,13 +17,25 @@ class Enemy
 		int hp ; //Enemy current health points
 		int mp ; //Enemy current mana points	
 		int st ; //Enemy current stamina points
-		int classType ; //The class type of the player
 		int enemyXLocation ; //The enemy X location
 		int enemyYLocation ; //The enemy Y location
+		int lastEnemyXLocation ; //The last enemy X location
+		int lastEnemyYLocation ; //The last enemy Y location
+		
+		char classType ; //The class type of the player
+		
+		int lookForPlayer(string* rawMap , int playerXLoc , int PlayerYLoc) ;
 	
 	public :
 	
 		Enemy(void) ; //Constructor
 		~Enemy(void) ; //Destructor
 		int init(char type) ; //Initilization method
+		
+		int updateEnemy(string* rawMap , int playerXLoc , int playerYLoc) ; //Updates the enemy (movement, attack...)
+		
+		int moveRandomly(string* rawMap) ;
+		int moveTowardsPlayer(string* rawMap , int playerXLoc , int playerYLoc) ;
+		
+		void printStuff(void) ; //For testing
 } ;

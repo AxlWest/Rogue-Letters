@@ -3,6 +3,7 @@
 #include <iostream>
 
 class Player ;
+class Enemy ;
 
 using std::string ;
 
@@ -20,6 +21,8 @@ class Level
 		
 		string levelMap[MAX_MAP_SIZE] ; //An array of strings containing the levels map
 		string rawMap[MAX_MAP_SIZE] ; //An array that stores the raw map data
+		
+		Enemy* enemy ;
 		
 		int loadMap(void) ;
 		void convertMap(void) ;

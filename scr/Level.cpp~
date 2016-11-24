@@ -42,21 +42,35 @@ void Level::loadLevel(int modifier , Player* player)
 		
 		for(int k = 0 ; k < length ; k++)
 		{
-			if(this->levelMap[i][k] == 'P')
+			if(modifier >= 0)
 			{
-				player->setXLocation(k) ;
-				player->setYLocation(i) ;
-				
-				//cout << "x = " << k << endl ;
-				//cout << "y = " << i << endl ;
-				
-				if(this->currentLevel != 0)
+				if(this->levelMap[i][k] == 'P')
 				{
-					this->levelMap[i][k] = '^' ;
+					player->setXLocation(k) ;
+					player->setYLocation(i) ;
+				
+					//cout << "x = " << k << endl ;
+					//cout << "y = " << i << endl ;
+				
+					if(this->currentLevel != 0)
+					{
+						this->levelMap[i][k] = '^' ;
+					}
+					else
+					{
+						this->levelMap[i][k] = ' ' ;
+					}
 				}
-				else
+			}
+			else
+			{
+				if(this->levelMap[i][k] == 'E')
 				{
-					this->levelMap[i][k] = ' ' ;
+					player->setXLocation(k) ;
+					player->setYLocation(i) ;
+				
+					
+					this->levelMap[i][k] = 'E' ;
 				}
 			}
 		}

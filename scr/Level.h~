@@ -3,6 +3,7 @@
 #include <iostream>
 
 class Player ;
+class Enemy ;
 
 using std::string ;
 

@@ -67,6 +67,10 @@ int Game::init()
 	
 	this->draw->addMessage("Welcome to Rogue Letters!") ;
 	
+	noecho() ; //Does not display the users input
+	curs_set(0) ; //Make the curser invisible
+	clear() ; //Clears the screen
+	
 	return 0 ;
 }
 
@@ -77,10 +81,6 @@ void Game::run()
         cout << "Should not be here" ;
 		return ;
 	}
-	
-	noecho() ; //Does not display the users input
-	curs_set(0) ; //Make the curser invisible
-	clear() ; //Clears the screen
 	
 	this->draw->updatePlayerStats(this->player) ;
 	this->draw->updateMap(this->level->getMap() , this->level->getMapHeight() , this->player->getXLocation() , this->player->getYLocation()) ;
