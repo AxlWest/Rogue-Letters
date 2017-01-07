@@ -83,19 +83,24 @@ void Game::run()
 	}
 	
 	this->draw->updatePlayerStats(this->player) ;
-	this->draw->updateMap(this->level->getMap() , this->level->getMapHeight() , this->player->getXLocation() , this->player->getYLocation()) ;
+	this->draw->updateMap(this->level->getLevelMap() , this->level->getMapHeight() , this->player->getXLocation() , this->player->getYLocation()) ;
 	
 	for(int i = 0 ; i < 100 ; i++)
 	{
-		this->draw->drawScreen() ;
+		
+		//if(i > 6)
+		//{
+			this->draw->drawScreen() ;
+		//}
 		
 		string temp ;
 		temp = getUserInput() ;
 		
 		this->handleKeyboardInput(temp) ;
 		
+		this->level->update(this->player->getXLocation() , this->player->getYLocation()) ;
 		this->draw->updatePlayerStats(this->player) ;
-		this->draw->updateMap(this->level->getMap() , this->level->getMapHeight() , this->player->getXLocation() , this->player->getYLocation()) ;
+		this->draw->updateMap(this->level->getDrawMap() , this->level->getMapHeight() , this->player->getXLocation() , this->player->getYLocation()) ;
 	}
 	
 	endwin() ;
@@ -599,7 +604,7 @@ int Game::surroundingTileInput(int bitKey , int count)
 					
 	this->draw->addMessage("Select tile to activate (Press ""t"" to toggle).") ;
 	
-	this->draw->updateMap(this->level->getMap() , this->level->getMapHeight() , this->player->getXLocation() , this->player->getYLocation()) ;
+	this->draw->updateMap(this->level->getLevelMap() , this->level->getMapHeight() , this->player->getXLocation() , this->player->getYLocation()) ;
 	
 	do
 	{
@@ -737,7 +742,7 @@ int Game::surroundingTileInput(int bitKey , int count)
 					toggled = true ;
 				}
 				
-				this->draw->updateMap(this->level->getMap() , this->level->getMapHeight() , this->player->getXLocation() , this->player->getYLocation()) ;
+				this->draw->updateMap(this->level->getLevelMap() , this->level->getMapHeight() , this->player->getXLocation() , this->player->getYLocation()) ;
 			
 				break ;
 				

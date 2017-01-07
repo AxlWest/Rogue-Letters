@@ -3,8 +3,13 @@
 #include <fstream>
 #include <sstream>
 #include <string>
+#include <stdlib.h>
+
+#include <curses.h> //For testing (for output)
+#include <ncurses.h>//For testing (for output)
 
 #include "Player.h"
+#include "Enemy.h"
 
 using std::ifstream ;
 using std::ostringstream ;
@@ -14,6 +19,7 @@ using std::endl ;
 Level::Level(void)
 {
 	this->currentLevel = 0 ;
+	this->highestLevel = 0 ;
 	
 	this->surroundingTilesStore = NULL ;
 }
@@ -34,6 +40,13 @@ void Level::loadLevel(int modifier , Player* player)
 	
 	this->loadMap() ;
 	this->convertMap() ;
+	
+	if(this->highestLevel < this->currentLevel)
+	{	
+		this->highestLevel = this->currentLevel ;
+		
+		this->spawnEnemys((this->highestLevel + 1)) ;
+	}
 	
 	for(int i = 0 ; i < this->mapHeight ; i++)
 	{
@@ -151,9 +164,15 @@ int Level::getMapHeight(void)
 	return this->mapHeight ;
 }
 
-string* Level::getMap(void)
+string* Level::getLevelMap(void)
 {
 	return this->levelMap ;
+}
+
+string* Level::getDrawMap(void)
+{
+	
+	return this->drawMap ;
 }
 
 char Level::getMapTile(int xLoc , int yLoc)
@@ -308,3 +327,48 @@ string Level::convertNumberToString(int number)
 	
 	return convertedNumber ;
 }
+
+int Level::spawnEnemys(int noOfEnemys)
+{
+	if(this->enemy.empty() == true)
+	{
+		for(int i = 0 ; i < (this->highestLevel + 1) ; i++)
+		{
+			int x = 0 ;
+			int y = 0 ;
+		
+			this->enemy.push_back(new Enemy()) ;
+			
+			do
+			{
+				y = rand() % this->mapHeight ;
+				x = rand() % this->rawMap[y].length() ;
+			}
+			while(this->rawMap[y][x] != '#') ;
+			
+			this->enemy[i]->init('b' , x , y) ; //Currently only summons bats (need to change this when more types and levels become avalible
+		}
+	}
+	
+	return 0 ;
+}
+
+void Level::update(int playerXLoc , int playerYLoc)
+{
+	for(int i = 0 ; i < MAX_MAP_SIZE ; i++)
+	{
+		this->drawMap[i].assign(this->levelMap[i]) ;
+	}
+	
+	for(int i = 0 ; i < this->enemy.size() ; i++)
+	{
+		//update enemy
+		if(this->enemy[i] != NULL)
+		{
+			this->enemy[i]->updateEnemy(this->rawMap , playerXLoc , playerYLoc) ;
+			this->drawMap[this->enemy[i]->getYLoc()][this->enemy[i]->getXLoc()] = this->enemy[i]->getType() ;
+		}
+	}
+}
+
+

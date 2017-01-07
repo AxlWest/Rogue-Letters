@@ -82,11 +82,17 @@ int Enemy::updateEnemy(string* rawMap , int playerXLoc , int playerYLoc)
 	
 	if(move == 1)
 	{
-		moveTowardsPlayer(rawMap , playerXLoc , playerYLoc) ;
+		for(int i = 0 ; i < ((this->speed / 10) + 1) ; i++)
+		{
+			this->moveTowardsPlayer(rawMap , playerXLoc , playerYLoc) ;
+		}
 	}
 	else
 	{
-		this->moveRandomly(rawMap) ;
+		for(int i = 0 ; i < ((this->speed / 10) + 1) ; i++)
+		{
+			this->moveRandomly(rawMap) ;
+		}
 	}
 
 	return 0 ;
@@ -114,6 +120,9 @@ int Enemy::lookForPlayer(string* rawMap , int playerXLoc , int playerYLoc)
 	
 	tile = rawMap[this->enemyYLocation][this->enemyXLocation] ;
 	
+	printw("HERE %c" , rawMap[this->enemyYLocation][this->enemyXLocation]) ;
+	refresh() ;
+	
 	do
 	{
 		if(above == true)
@@ -136,12 +145,21 @@ int Enemy::lookForPlayer(string* rawMap , int playerXLoc , int playerYLoc)
 		
 		if((this->enemyYLocation + y) == playerYLoc && (this->enemyXLocation + x) == playerXLoc)
 		{
+			printw(" Found Him") ;
+			refresh() ;
 			return 1 ; //Player found (within line of sight)
 		}
 		
 		tile = rawMap[(this->enemyYLocation + y)][(this->enemyXLocation + x)] ;
+		
+		printw(" %c" , rawMap[(this->enemyYLocation + y)][(this->enemyXLocation + x)]) ;
+		refresh() ;
+		
 	}
-	while(tile != '+' || tile != 'D') ;
+	while(tile != '+') ;// || tile != 'D') ;
+	
+	printw(" MADE IT") ;
+	refresh() ;
 	
 	return -1 ; //Player is not in line of sight (not found)
 }
@@ -212,11 +230,11 @@ int Enemy::moveRandomly(string* rawMap)
 
 int Enemy::moveTowardsPlayer(string* rawMap , int playerXLoc , int playerYLoc)
 {
-	int x = 0 ;
-	int y = 0 ;
-	int random = 0 ;
+	//int x = 0 ;
+	//int y = 0 ;
+	//int random = 0 ;
 
-	char tile ;
+	//char tile ;
 	
 	if(playerYLoc == enemyYLocation) //Is the player on the same line as the enemy
 	{
@@ -290,6 +308,21 @@ int Enemy::moveTowardsPlayer(string* rawMap , int playerXLoc , int playerYLoc)
 	}
 
 	return 0 ;
+}
+
+int Enemy::getXLoc(void)
+{
+	return this->enemyXLocation ;
+}
+
+int Enemy::getYLoc(void)
+{
+	return this->enemyYLocation ;
+}
+
+char Enemy::getType(void)
+{
+	return this->classType ;
 }
 
 void Enemy::printStuff(void)

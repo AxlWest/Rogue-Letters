@@ -1,11 +1,13 @@
 #pragma once
 
 #include <iostream>
+#include <vector>
 
 class Player ;
 class Enemy ;
 
 using std::string ;
+using std::vector ;
 
 class Level
 {
@@ -17,10 +19,14 @@ class Level
 		
 		int currentLevel ; //Stores the current level
 		int mapHeight ; //Stores number of lines in the map
+		int highestLevel ; //Stores the highest level that the player has reached
 		char* surroundingTilesStore ;
 		
+		string drawMap[MAX_MAP_SIZE] ; //The map that gets drawn
 		string levelMap[MAX_MAP_SIZE] ; //An array of strings containing the levels map
 		string rawMap[MAX_MAP_SIZE] ; //An array that stores the raw map data
+		
+		vector<Enemy*> enemy ;
 		
 		int loadMap(void) ;
 		void convertMap(void) ;
@@ -33,9 +39,12 @@ class Level
 		void loadLevel(int modifier , Player* player) ;
 		
 		int getMapHeight(void) ;
-		string* getMap(void) ;
+		string* getLevelMap(void) ;
+		string* getDrawMap(void) ;
 		char getMapTile(int xLoc , int yLoc) ;
 		void toggleDoor(int x , int y) ;
 		void toggleSurroundingTiles(int bitKey , int x , int y) ;
 		string convertNumberToString(int number) ;
+		int spawnEnemys(int noOfEnemys) ;
+		void update(void) ;
 } ;

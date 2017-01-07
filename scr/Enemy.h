@@ -30,12 +30,15 @@ class Enemy
 	
 		Enemy(void) ; //Constructor
 		~Enemy(void) ; //Destructor
-		int init(char type  , int playerXLoc , int playerYLoc) ; //Initilization method
+		int init(char type  , int spawnXLoc , int spawnYLoc) ; //Initilization method
 		
 		int updateEnemy(string* rawMap , int playerXLoc , int playerYLoc) ; //Updates the enemy (movement, attack...)
 		
 		int moveRandomly(string* rawMap) ;
 		int moveTowardsPlayer(string* rawMap , int playerXLoc , int playerYLoc) ;
+		int getXLoc(void) ;
+		int getYLoc(void) ;
+		char getType(void) ;
 		
 		void printStuff(void) ; //For testing
 } ;
