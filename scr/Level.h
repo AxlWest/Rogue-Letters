@@ -5,6 +5,7 @@
 
 class Player ;
 class Enemy ;
+class Draw ;
 
 using std::string ;
 using std::vector ;
@@ -46,5 +47,5 @@ class Level
 		void toggleSurroundingTiles(int bitKey , int x , int y) ;
 		string convertNumberToString(int number) ;
 		int spawnEnemys(int noOfEnemys) ;
-		void update(int playerXLoc , int playerYLoc) ;
+		void update(Player* player , Draw* draw , int playerXLoc , int playerYLoc) ;
 } ;

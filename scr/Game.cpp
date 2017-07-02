@@ -78,7 +78,7 @@ void Game::run()
 {
 	if(this->init() != 0)
 	{
-        cout << "Should not be here" ;
+        	cout << "Should not be here" ;
 		return ;
 	}
 	
@@ -94,11 +94,11 @@ void Game::run()
 		//}
 		
 		string temp ;
-		temp = getUserInput() ;
+		temp = this->getUserInput() ;
 		
 		this->handleKeyboardInput(temp) ;
 		
-		this->level->update(this->player->getXLocation() , this->player->getYLocation()) ;
+		this->level->update(this->player , this->draw , this->player->getXLocation() , this->player->getYLocation()) ;
 		this->draw->updatePlayerStats(this->player) ;
 		this->draw->updateMap(this->level->getDrawMap() , this->level->getMapHeight() , this->player->getXLocation() , this->player->getYLocation()) ;
 	}

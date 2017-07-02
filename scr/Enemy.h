@@ -14,6 +14,7 @@ class Enemy
 		int speed ; //Determines who attacks first great speed can allow the enemy to attack twice consecutively
 		int stamina ; //The distance the enemy can run for and total effectiveness in combat
 		int mana ; //The amount of mana avalile for casting spells
+		int damage ; //How much damage the enemy deals with each hit
 		int hp ; //Enemy current health points
 		int mp ; //Enemy current mana points	
 		int st ; //Enemy current stamina points
@@ -36,8 +37,13 @@ class Enemy
 		
 		int moveRandomly(string* rawMap) ;
 		int moveTowardsPlayer(string* rawMap , int playerXLoc , int playerYLoc) ;
+		int moveRight(string* rawMap) ;
+		int moveLeft(string* rawMap) ;
+		int moveUp(string* rawMap) ;
+		int moveDown(string* rawMap) ;
 		int getXLoc(void) ;
 		int getYLoc(void) ;
+		int attack(void) ;
 		char getType(void) ;
 		
 		void printStuff(void) ; //For testing

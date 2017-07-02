@@ -10,6 +10,7 @@
 
 #include "Player.h"
 #include "Enemy.h"
+#include "Draw.h"
 
 using std::ifstream ;
 using std::ostringstream ;
@@ -353,7 +354,7 @@ int Level::spawnEnemys(int noOfEnemys)
 	return 0 ;
 }
 
-void Level::update(int playerXLoc , int playerYLoc)
+void Level::update(Player* player , Draw* draw , int playerXLoc , int playerYLoc)
 {
 	for(int i = 0 ; i < MAX_MAP_SIZE ; i++)
 	{
@@ -365,7 +366,46 @@ void Level::update(int playerXLoc , int playerYLoc)
 		//update enemy
 		if(this->enemy[i] != NULL)
 		{
-			this->enemy[i]->updateEnemy(this->rawMap , playerXLoc , playerYLoc) ;
+			int damage = 0 ;
+
+			damage = this->enemy[i]->updateEnemy(this->levelMap/*this->rawMap*/ , playerXLoc , playerYLoc) ;
+
+			if(damage > 0)
+			{
+				int random = 0 ;
+				string message ;
+
+				random = (rand() % 100) + 1 ; //Random number between 1 - 100
+
+				if(random > player->changeDodgeChance(0))
+				{
+					player->changeHP(-damage) ;
+
+					message = this->enemy[i]->getType() ;
+					message += " attacked you for " ;
+					message += this->convertNumberToString(damage) ;
+					message += " damage." ;
+
+					draw->addMessage(message) ;
+				}
+				else
+				{
+					message = this->enemy[i]->getType() ;
+					message += " attacked you but you skillfully dodged." ;
+
+					draw->addMessage(message) ;
+				}
+			}
+
+			if(damage == -1)
+			{
+				string message ;
+				
+				message = this->enemy[i]->getType() ;
+				message = " attacked you and missed." ;
+				draw->addMessage(message) ;
+			}
+
 			this->drawMap[this->enemy[i]->getYLoc()][this->enemy[i]->getXLoc()] = this->enemy[i]->getType() ;
 		}
 	}

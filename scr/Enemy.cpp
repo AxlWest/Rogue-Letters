@@ -19,6 +19,7 @@ Enemy::Enemy(void)
 	this->speed = 0 ;
 	this->stamina = 0 ;
 	this->mana = 0 ;
+	this->damage = 0 ;
 	this->hp = 0 ;
 	this->mp = 0 ;
 	this->st = 0 ;
@@ -52,6 +53,7 @@ int Enemy::init(char type , int spawnXLoc , int spawnYLoc)
 		file >> this->speed ;
 		file >> this->stamina ;
 		file >> this->mana ;
+		file >> this->damage ;
 		
 		file.close() ;
 	}
@@ -84,7 +86,10 @@ int Enemy::updateEnemy(string* rawMap , int playerXLoc , int playerYLoc)
 	{
 		for(int i = 0 ; i < ((this->speed / 10) + 1) ; i++)
 		{
-			this->moveTowardsPlayer(rawMap , playerXLoc , playerYLoc) ;
+			if(this->moveTowardsPlayer(rawMap , playerXLoc , playerYLoc) != 0)
+			{
+				return this->attack() ;
+			}
 		}
 	}
 	else
@@ -107,61 +112,92 @@ int Enemy::lookForPlayer(string* rawMap , int playerXLoc , int playerYLoc)
 	
 	bool above = false ;
 	bool right = false ;
-	
-	if(playerYLoc < enemyYLocation) //Is the player above the enemy?
-	{
+
+	if(playerXLoc > enemyXLocation) //Is the player to the right of the enemy?	
+	{	
+		right = true ;
+	}		
+
+	if(playerYLoc == enemyYLocation) //Is the player on the same line as the enemy?			
+	{			
+		do		
+		{		
+			if(right == true)	
+			{	
+				x++ ;
+			}	
+			else	
+			{	
+				x-- ;
+			}	
+				
+			if((this->enemyXLocation + x) == playerXLoc)	
+			{	
+				return 1 ; //Player found (within line of sight)
+			}	
+				
+			tile = rawMap[this->enemyYLocation][(this->enemyXLocation + x)] ;	
+		}		
+		while(tile != '+' && tile != 'D') ;		
+			
+		return -1 ; //Player is not in line of sight (not found)		
+	}
+
+	if(playerYLoc < enemyYLocation) //Is the player above the enemy?	
+	{	
 		above = true ;
 	}
-	
-	if(playerXLoc > enemyXLocation) //Is the player to the right of the enemy?
+
+	if(right != true)
 	{
-		above = true ;
-	}
-	
-	tile = rawMap[this->enemyYLocation][this->enemyXLocation] ;
-	
-	printw("HERE %c" , rawMap[this->enemyYLocation][this->enemyXLocation]) ;
-	refresh() ;
-	
-	do
-	{
-		if(above == true)
+		x = 1 ;
+	}	
+
+	do			
+	{	
+		if(above == true)		
+		{		
+			y-- ;	
+		}		
+		else		
+		{		
+			y++ ;	
+		}
+			
+		do		
 		{
-			y-- ;
+			if(right == true)	
+			{	
+				x++ ;
+			}	
+			else	
+			{	
+				x-- ;
+			}	
+				
+			if((this->enemyYLocation + y) == playerYLoc && (this->enemyXLocation + x) == playerXLoc)	
+			{	
+				return 1 ; //Player found (within line of sight)
+			}	
+				
+			tile = rawMap[(this->enemyYLocation + y)][(this->enemyXLocation + x)] ;	
+		}		
+		while(tile != '+' && tile != 'D') ;
+
+		if(right != true)
+		{
+			x = 1 ;
 		}
 		else
 		{
-			y++ ;
-		}
-		
-		if(right == true)
-		{
-			x++ ;
-		}
-		else
-		{
-			x-- ;
-		}
-		
-		if((this->enemyYLocation + y) == playerYLoc && (this->enemyXLocation + x) == playerXLoc)
-		{
-			printw(" Found Him") ;
-			refresh() ;
-			return 1 ; //Player found (within line of sight)
-		}
-		
-		tile = rawMap[(this->enemyYLocation + y)][(this->enemyXLocation + x)] ;
-		
-		printw(" %c" , rawMap[(this->enemyYLocation + y)][(this->enemyXLocation + x)]) ;
-		refresh() ;
-		
-	}
-	while(tile != '+') ;// || tile != 'D') ;
+			x = 0 ;
+		}		
 	
-	printw(" MADE IT") ;
-	refresh() ;
-	
-	return -1 ; //Player is not in line of sight (not found)
+		tile = rawMap[(this->enemyYLocation + y)][this->enemyXLocation] ;	
+	}			
+	while(tile != '+' && tile != 'D') ;			
+			
+	return -1 ; //Player is not in line of sight (not found)			
 }
 
 int Enemy::moveRandomly(string* rawMap)
@@ -229,26 +265,42 @@ int Enemy::moveRandomly(string* rawMap)
 }
 
 int Enemy::moveTowardsPlayer(string* rawMap , int playerXLoc , int playerYLoc)
-{
-	//int x = 0 ;
-	//int y = 0 ;
-	//int random = 0 ;
+{	
+	//printw("Player X %d Player Y %d" , playerXLoc , playerYLoc) ;
+	//printw("\n") ;
+	//printw("Enemy X %d Enemy Y %d" , this->enemyXLocation , this->enemyYLocation) ;
 
-	//char tile ;
-	
 	if(playerYLoc == enemyYLocation) //Is the player on the same line as the enemy
 	{
 		if(playerXLoc > enemyXLocation) //Is the player to the right of the enemy?
 		{
-			this->lastEnemyXLocation = this->enemyXLocation ;
-			this->enemyXLocation++ ; //Move right
+			this->moveRight(rawMap) ;
+			
+			//this->lastEnemyXLocation = this->enemyXLocation ;
+			//this->enemyXLocation++ ; //Move right
+
+			if(this->enemyXLocation == playerXLoc && this->enemyYLocation == playerXLoc)
+			{
+				this->enemyXLocation = this->lastEnemyXLocation ;
+				
+				return 1 ;
+			}
 			
 			return 0 ;
 		}
 		else
 		{
-			this->lastEnemyXLocation = this->enemyXLocation ;
-			this->enemyXLocation-- ; //Move left
+			this->moveLeft(rawMap) ;
+
+			//this->lastEnemyXLocation = this->enemyXLocation ;
+			//this->enemyXLocation-- ; //Move left
+
+			if(this->enemyXLocation == playerXLoc && this->enemyYLocation == playerXLoc)
+			{
+				this->enemyXLocation = this->lastEnemyXLocation ;
+				
+				return 1 ;
+			}
 			
 			return 0 ;
 		}
@@ -258,15 +310,33 @@ int Enemy::moveTowardsPlayer(string* rawMap , int playerXLoc , int playerYLoc)
 	{
 		if(playerYLoc > enemyYLocation) //Is the player to the below the enemy?
 		{
-			this->lastEnemyYLocation = this->enemyYLocation ;
-			this->enemyYLocation++ ; //Move down
+			this->moveDown(rawMap) ;
+			
+			//this->lastEnemyYLocation = this->enemyYLocation ;
+			//this->enemyYLocation++ ; //Move down
+
+			if(this->enemyXLocation == playerXLoc && this->enemyYLocation == playerXLoc)
+			{
+				this->enemyYLocation = this->lastEnemyYLocation ;
+				
+				return 1 ;
+			}
 			
 			return 0 ;
 		}
 		else
 		{
-			this->lastEnemyYLocation = this->enemyYLocation ;
-			this->enemyYLocation-- ; //Move up
+			this->moveUp(rawMap) ;
+
+			//this->lastEnemyYLocation = this->enemyYLocation ;
+			//this->enemyYLocation-- ; //Move up
+
+			if(this->enemyXLocation == playerXLoc && this->enemyYLocation == playerXLoc)
+			{
+				this->enemyYLocation = this->lastEnemyYLocation ;
+				
+				return 1 ;
+			}
 			
 			return 0 ;
 		}
@@ -276,15 +346,33 @@ int Enemy::moveTowardsPlayer(string* rawMap , int playerXLoc , int playerYLoc)
 	{
 		if(playerXLoc > enemyXLocation) //Is the player to the right of the enemy?
 		{
-			this->lastEnemyXLocation = this->enemyXLocation ;
-			this->enemyXLocation++ ; //Move right
+			this->moveRight(rawMap) ;
+
+			//this->lastEnemyXLocation = this->enemyXLocation ;
+			//this->enemyXLocation++ ; //Move right
+
+			if(this->enemyXLocation == playerXLoc && this->enemyYLocation == playerXLoc)
+			{
+				this->enemyXLocation = this->lastEnemyXLocation ;
+				
+				return 1 ;
+			}
 			
 			return 0 ;
 		}
 		else
 		{
-			this->lastEnemyXLocation = this->enemyXLocation ;
-			this->enemyXLocation-- ; //Move left
+			this->moveLeft(rawMap) ;
+
+			//this->lastEnemyXLocation = this->enemyXLocation ;
+			//this->enemyXLocation-- ; //Move left
+
+			if(this->enemyXLocation == playerXLoc && this->enemyYLocation == playerXLoc)
+			{
+				this->enemyXLocation = this->lastEnemyXLocation ;
+				
+				return 1 ;
+			}
 			
 			return 0 ;
 		}
@@ -293,21 +381,172 @@ int Enemy::moveTowardsPlayer(string* rawMap , int playerXLoc , int playerYLoc)
 	{
 		if(playerYLoc > enemyYLocation) //Is the player to the below the enemy?
 		{
-			this->lastEnemyYLocation = this->enemyYLocation ;
-			this->enemyYLocation++ ; //Move down
+			this->moveDown(rawMap) ;
+
+			//this->lastEnemyYLocation = this->enemyYLocation ;
+			//this->enemyYLocation++ ; //Move down
+
+			if(this->enemyXLocation == playerXLoc && this->enemyYLocation == playerXLoc)
+			{
+				this->enemyYLocation = this->lastEnemyYLocation ;
+				
+				return 1 ;
+			}
 			
 			return 0 ;
 		}
 		else
 		{
-			this->lastEnemyYLocation = this->enemyYLocation ;
-			this->enemyYLocation-- ; //Move up
+			this->moveUp(rawMap) ;
+
+			//this->lastEnemyYLocation = this->enemyYLocation ;
+			//this->enemyYLocation-- ; //Move up
+
+			if(this->enemyXLocation == playerXLoc && this->enemyYLocation == playerXLoc)
+			{
+				this->enemyYLocation = this->lastEnemyYLocation ;
+				
+				return 1 ;
+			}
 			
 			return 0 ;
 		}
 	}
 
-	return 0 ;
+	return -1 ;
+}
+
+int Enemy::moveRight(string* rawMap)
+{
+	char tile ;
+	
+	tile = rawMap[enemyYLocation][(enemyXLocation + 1)] ;
+	
+	switch(tile)
+	{
+		case '#' :
+		case '_' :
+		case '^' :
+		case ' ' :
+
+			this->lastEnemyXLocation = this->enemyXLocation ;
+			this->enemyXLocation++ ;
+
+			break ;
+
+		case 'D' :
+		case '+' :
+		case 'S' :
+		default :
+			
+			return -1 ;
+			//Can not move any more in this direction
+
+			break ;	
+
+	}
+
+	return 1 ;
+}
+
+int Enemy::moveLeft(string* rawMap)
+{
+	char tile ;
+	
+	tile = rawMap[enemyYLocation][(enemyXLocation - 1)] ;
+	
+	switch(tile)
+	{
+		case '#' :
+		case '_' :
+		case '^' :
+		case ' ' :
+
+			this->lastEnemyXLocation = this->enemyXLocation ;
+			this->enemyXLocation-- ;
+		
+			break ;
+
+		case 'D' :
+		case '+' :
+		case 'S' :
+		default :
+		
+			return -1 ;
+			//Can not move any more in this direction
+
+			break ;	
+
+	}
+
+	return 1 ;
+}
+
+int Enemy::moveUp(string* rawMap)
+{
+	char tile ;
+	
+	tile = rawMap[(enemyYLocation - 1)][enemyXLocation] ;
+	
+	switch(tile)
+	{
+		case '#' :
+		case '_' :
+		case '^' :
+		case ' ' :
+
+			this->lastEnemyYLocation = this->enemyYLocation ;
+			this->enemyYLocation-- ;
+		
+			break ;
+
+		case 'D' :
+		case '+' :
+		case 'S' :
+		default :
+		
+			return -1 ;
+			//Can not move any more in this direction
+
+			break ;	
+
+	}
+
+	return 1 ;
+}
+
+int Enemy::moveDown(string* rawMap)
+{
+	char tile ;
+	
+	tile = rawMap[(enemyYLocation + 1)][enemyXLocation] ;
+	
+	switch(tile)
+	{
+		case '#' :
+		case '_' :
+		case '^' :
+		case ' ' :
+
+			this->lastEnemyYLocation = this->enemyYLocation ;
+			this->enemyYLocation++ ;
+		
+			break ;
+
+
+		case 'D' :
+		case '+' :
+		case 'S' :
+		default :
+		
+			return -1 ;
+			//Can not move any more in this direction
+
+			break ;	
+
+	}
+
+	return 1 ;
 }
 
 int Enemy::getXLoc(void)
@@ -318,6 +557,22 @@ int Enemy::getXLoc(void)
 int Enemy::getYLoc(void)
 {
 	return this->enemyYLocation ;
+}
+
+int Enemy::attack(void)
+{
+	int randomNumber ;
+
+	randomNumber = rand() % 100 ;
+
+	if(randomNumber > this->chanceToHit)
+	{
+		return this->damage ;
+	}
+	else
+	{
+		return -1 ;
+	}
 }
 
 char Enemy::getType(void)

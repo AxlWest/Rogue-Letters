@@ -1,0 +1,2 @@
+Add in a reveiled map (int version of map indicating if it has been drawn)
+Add in a currently viewed map (area around the player he can see (use formular like the one to find the player)

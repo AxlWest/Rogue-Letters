@@ -8,7 +8,8 @@ OBJS = Main.o Game.o Player.o InventorySlot.o Draw.o Level.o Enemy.o
 all: RogueLetters
 
 RogueLetters: Main.o Game.o Player.o InventorySlot.o Draw.o Level.o Enemy.o
-	$(CXX) $(OBJS) -o ../RogueLetters
+	$(CXX) $(OBJS) -g -o ../RogueLetters -lncurses	#Use this line insted to enable debugging
+	#$(CXX) $(OBJS) -o ../RogueLetters -lncurses
 	
 main.o: Main.cpp
 	$(CXX) $(CXXFLAGS) Main.cpp
@@ -29,7 +30,7 @@ Level.o:
 	$(CXX) $(CXXFLAGS) Level.h Level.cpp
 	
 Enemy.o:
-	$(CXX) $(CXXFLAGS) Enemy.h Enemy.cpp
+	$(CXX) $(CXXFLAGS) Enemy.h Enemy.cpp 
 	
 .PHONY: clean
 
