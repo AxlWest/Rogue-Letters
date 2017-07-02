@@ -52,6 +52,7 @@ class Player
 	int getStamina(void) ; //Returns the players stamina points
 	int getXLocation(void) ; //Returns the players X location
 	int getYLocation(void) ; //Returns the players Y location
+	int meleeAttack(void) ; //Attacks and reutrns if its attack is on target
 	void setXLocation(int newLocation) ; //Sets the players new X location
 	void setYLocation(int newLocation) ; //Sets the players new Y location
 } ;

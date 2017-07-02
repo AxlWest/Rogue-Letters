@@ -59,11 +59,11 @@ void Draw::drawScreen(void)
 
 void Draw::updatePlayerStats(Player* player)
 {
-	if(player->getHealthPoints() > 9)
+	if(player->changeHP(0) > 9)
 	{
 		ostringstream convert ;
 		
-		convert << player->getHealthPoints() ;
+		convert << player->changeHP(0) ;
 		
 		string value = convert.str() ;
 		
@@ -74,7 +74,7 @@ void Draw::updatePlayerStats(Player* player)
 	{
 		ostringstream convert ;
 		
-		convert << player->getHealthPoints() ;
+		convert << player->changeHP(0) ;
 		
 		string value = convert.str() ;
 		
@@ -82,11 +82,11 @@ void Draw::updatePlayerStats(Player* player)
 		this->screen[(this->SCREEN_WIDTH * 4) + 67] = value.c_str()[0] ;
 	}
 
-    if(player->changeHP(0) > 9)
+    if(player->getHealthPoints() > 9)
 	{
 		ostringstream convert ;
 		
-		convert << player->changeHP(0) ;
+		convert << player->getHealthPoints() ;
 		
 		string value = convert.str() ;
 		
@@ -97,7 +97,7 @@ void Draw::updatePlayerStats(Player* player)
 	{
 		ostringstream convert ;
 		
-		convert << player->changeHP(0) ;
+		convert << player->getHealthPoints() ;
 		
 		string value = convert.str() ;
 		

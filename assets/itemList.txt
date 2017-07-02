@@ -1,0 +1,3 @@
+BD  Basic Dagger
+WS  Wooden Shield
+NR  Novice Mage Robes

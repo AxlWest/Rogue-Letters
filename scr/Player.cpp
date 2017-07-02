@@ -1,6 +1,8 @@
 #include "Player.h"
 #include "InventorySlot.h"
 
+#include <stdlib.h>
+
 #define NULL 0
 
 Player::Player(void)
@@ -198,6 +200,20 @@ int Player::getXLocation(void)
 int Player::getYLocation(void)
 {
 	return this->playerYLocation ;
+}
+
+int Player::meleeAttack(void)
+{
+	if((rand() % 10) < this->chanceToHit)
+	{
+		
+	}
+	else
+	{
+		return 0 ;
+	}
+	
+	return -1 ;
 }
 
 void Player::setXLocation(int newLocation)
